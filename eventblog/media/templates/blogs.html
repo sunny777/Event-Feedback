@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/offcanvas.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+{% include "main_nav.html" %}
+
+
+    <!--main-->
+<div class="container" id="main">
+   <div class="row" style="margin-top:-100px;">
+        <div class="col-md-6 col-sm-6">
+            <div class="panel-heading">
+                <h4><a href="#addblogModal" role="button" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span></a>&nbsp;&nbsp;Add New Blogs </h4>
+            </div>
+            {% if latest_blog_list %}
+            {% for blog in latest_blog_list %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>{{ blog.blog_title }}</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="clearfix"></div>
+                    <h5>{{blog.blog_body}}</h5>
+                </div>
+            </div>
+        {% endfor %}
+        {% else %}
+            <p>No Blogs are available.</p>
+        {% endif %}
+        </div>
+   </div>
+</div>
+<!--add blog modal-->
+<div id="addblogModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h2 class="text-center">Blog</h2>
+      </div>
+      <div class="modal-body" style="padding:0px;">
+          <div class="col-md-12">
+            <form class="form-group" action="" method="post">
+                    {% csrf_token %}
+                       {{ form_class }}
+                <br><button class="btn btn-success pull-right" type="submit">Post</button>
+            </form>
+          </div>
+      </div>
+      <div class="modal-footer">
+
+      </div>
+  </div>
+  </div>
+</div>
+	<!-- script references -->
+
+    <script type="text/javascript" src="{% static 'js/jquery-1.11.2.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
+    {# Load the tag library #}
+    {% load bootstrap3 %}
+
+    {# Load CSS and JavaScript #}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</body>
+</html>
