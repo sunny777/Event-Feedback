@@ -1,4 +1,4 @@
-from blog.forms import BlogForm
+from blog.forms import *
 from models import Blog
 from django.shortcuts import render_to_response
 from django.views.generic.edit import FormView
@@ -15,7 +15,10 @@ from django.contrib.auth.decorators import login_required
 @login_required(login_url='/account/login')
 def blog(request):
     if request.method == 'POST':
-        form = BlogForm(request.POST)
+        if 'BlogForm' in request.POST:
+            form = BlogForm(request.POST)
+        elif 'comment_data' in request.POST:
+                form = CommentForm(request.POST)
         if form.is_valid():
             blog = form.save(commit=False)
             # commit=False tells Django that "Don't send this to database yet.
@@ -28,7 +31,8 @@ def blog(request):
     context = RequestContext(request, {
         'latest_blog_list': latest_blog_list,
         'template_name': 'blogs.html',
-        'form_class': BlogForm,
+        'form_blog': BlogForm,
+        'form_comment': CommentForm,
         'success_url': '/thanks/',
     })
     return HttpResponse(template.render(context))

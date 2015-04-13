@@ -50,10 +50,7 @@ function show(){
 	$("#show_body").show();
 }
 
-function feedback(){
-	$("#feedback_body").show();
-	$("#suggestion_body").hide();
-}
+
 
 function suggestion(){
 	$("#feedback_body").hide();

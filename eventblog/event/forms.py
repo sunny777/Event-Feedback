@@ -12,11 +12,11 @@ class FeedbackForm(ModelForm):
         # exclude = ('event_id',)
         fields = ('feedback_data', 'event')
         labels = {
-            'feedback_data': _('Feedback'),
+            'feedback_data': "",
             'event': "",
         }
         widgets = {
-            'feedback_data': TextInput(attrs={'class': 'form-control'}),
+            'feedback_data': TextInput(attrs={'class': 'form-control', 'placeholder': 'Give feedback...'}),
             'event': TextInput(attrs={'style': 'display:none;'}),
         }
 
@@ -24,21 +24,24 @@ class FeedbackForm(ModelForm):
 class SuggestionForm(ModelForm):
     class Meta:
         model = Suggestion
-        fields = ('suggestion_data',)
+        fields = ('suggestion_data', 'event')
         labels = {
-            'suggestion_data': _('Suggestion'),
+            'suggestion_data': "",
+            'event': "",
         }
         widgets = {
-            'suggestion_data': TextInput(attrs={'class': 'form-control'}),
+            'suggestion_data': TextInput(attrs={'class': 'form-control', 'placeholder': 'Give suggestion...'}),
+            'event': TextInput(attrs={'style': 'display:none;'}),
         }
 
 
 RATING_CHOICES = (
-    (' 1 ', 'One'),
-    (' 2 ', 'Two'),
-    (' 3 ', 'Three'),
-    (' 4 ', 'Four'),
-    (' 5 ', 'Five'),
+    (' 0 ', 'Select Ratings'),
+    (' 1 ', '*'),
+    (' 2 ', '**'),
+    (' 3 ', '***'),
+    (' 4 ', '****'),
+    (' 5 ', '*****'),
 
 )
 
@@ -46,12 +49,14 @@ RATING_CHOICES = (
 class RatingForm(ModelForm):
     class Meta:
         model = Rating
-        fields = ('rating_star',)
+        fields = ('rating_star', 'event')
         labels = {
-            'rating_star': _('Rating'),
+            'rating_star': "",
+            'event': "",
         }
         widgets = {
             'rating_star': Select(choices=RATING_CHOICES, attrs={'class': 'form-control'}),
+            'event': TextInput(attrs={'style': 'display:none;'}),
         }
 
 

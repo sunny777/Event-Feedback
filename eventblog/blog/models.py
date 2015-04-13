@@ -15,6 +15,16 @@ class Blog(models.Model):
         return self.blog_title
 
 
+class Comment(models.Model):
+    blog = models.ForeignKey(Blog)
+    user = models.ForeignKey(User, blank=True, null=True)
+    comment_date = models.DateTimeField(auto_now_add=True)
+    comment_data = models.CharField(max_length=700)
+
+    def __str__(self):
+        return self.comment_data
+
+
 class BlogPictures(models.Model):
     blog = models.ForeignKey(Blog)
     picture = models.ImageField("Upload Picture", upload_to="images/blog/", null=True, blank=True)

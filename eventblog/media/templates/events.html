@@ -13,41 +13,45 @@
         {% include "main_nav.html" %}
         <div class="container" id="main">
             <div class="row">
-                <div class="col-md-6 col-sm-6">
-                {% if latest_event_list %}
-                {% for event in latest_event_list %}
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4>Event-{{ event.event_name }}</h4>
-                        </div>
-                        <div class="panel-body">
-                            <div class="panel-thumbnail"><img src="../media/{{event.event_thumbnail}}"  class="img-responsive"></div>
-                            <div class="clearfix"></div>
-                            <h4>Description-{{event.event_description}}</h4>
-                            <h4>Location-{{event.event_location}}</h4>
-                            <h4> Date and Time- {{event.event_date}}</h4>
-                            <div id="clearfix">
-                            <a id="feedback" onclick="feedback()" href="#" role="button" data-toggle="modal">Feedback</a>&nbsp;&nbsp;
-                            <a id="suggestion" onclick="suggestion()" href="#" role="button" data-toggle="modal">Suggestion</a>
+                <div class="col-md-6 col-sm-4" style="margin-left:100px;">
+                    {% if latest_event_list %}
+                        {% for event in latest_event_list %}
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="panel-thumbnail">
+                                        <img src="../media/{{event.event_thumbnail}}"  class="img-responsive">
+                                        {{ event.event_name }}<br>
+                                        {{event.event_date}}<br>
+                                        {{event.event_location}}<br />
+                                        <a id="feedback" onclick="feedback({{event.id}})" href="#" role="button" data-toggle="modal">Feedback</a>&nbsp;&nbsp;
+                                        <a id="suggestion" onclick="suggestion({{event.id}})" href="#" role="button" data-toggle="modal">Suggestion</a>
+                                        <a id="" onclick="rating({{event.id}})" href="#" role="button" data-toggle="modal">Rate this event</a>
+                                        <div id="feedback_body_{{event.id}}" style="display:none;">
+                                            <form class="form-group" action="" method="post">{% csrf_token %}
+                                                {{ form_feedback }}
+                                                <br><button class="btn btn-success pull-right" type="submit">Post</button>
+                                            </form>
+                                        </div>
+                                        <div id="suggestion_body_{{event.id}}" style="display:none;">
+                                            <form class="form-group" action="" method="post">{% csrf_token %}
+                                                {{ form_suggestion }}
+                                                <br><button class="btn btn-success pull-right" type="submit">Post</button>
+                                            </form>
+                                        </div>
+                                        <div id="rating_body_{{event.id}}" style="display:none;">
+                                            <form class="form-group" action="" method="post">{% csrf_token %}
+                                                {{ form_rating }}
+                                                <br><button class="btn btn-success pull-right" type="submit">Post</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div id="suggestion_body">
-                                Sunny
-                            </div>
-                            <div id="feedback_body">
-
-
-                                <form class="form-group" action="" method="post">{% csrf_token %}
-                                    {{ form_class }}
-                                    <br><button class="btn btn-success pull-right" type="submit">Post</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-                {% else %}
-                    <p>No Events are available.</p>
-                {% endif %}
-                </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>No Events are available.</p>
+                    {% endif %}
+                  </div>
                 <div class="col-md-4 col-sm-6">
                     <div class="panel panel-default">
                         <div class="panel-body">
@@ -80,6 +84,25 @@
     {% bootstrap_javascript %}
     </body>
     <script>
+            function feedback(id){
+                $("#suggestion_body_"+id).hide()
+                $("#rating_body_"+id).hide()
+                $("#feedback_body_"+id).toggle()
+                $("#feedback_body_"+id).find("#id_event").val(id)
+            }
 
+            function suggestion(id){
+                $("#feedback_body_"+id).hide()
+                $("#rating_body_"+id).hide()
+                $("#suggestion_body_"+id).toggle()
+                $("#suggestion_body_"+id).find("#id_event").val(id)
+            }
+
+            function rating(id){
+                $("#feedback_body_"+id).hide()
+                $("#suggestion_body_"+id).hide()
+                $("#rating_body_"+id).toggle()
+                $("#rating_body_"+id).find("#id_event").val(id)
+            }
     </script>
 </html>

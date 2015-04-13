@@ -36,21 +36,11 @@ class Feedback(models.Model):
         return self.feedback_data
 
 
-RATING_CHOICES = (
-    (' 1 ', 'One'),
-    (' 2 ', 'Two'),
-    (' 3 ', 'Three'),
-    (' 4 ', 'Four'),
-    (' 5 ', 'Five'),
-
-)
-
-
 class Rating(models.Model):
     event = models.ForeignKey(Event)
     user = models.ForeignKey(User)
     rating_date = models.DateTimeField(auto_now_add=True)
-    rating_star = models.IntegerField(choices=RATING_CHOICES)
+    rating_star = models.IntegerField(null=True)
 
     def __str__(self):
         return self.rating_star
