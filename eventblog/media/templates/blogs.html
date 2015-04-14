@@ -14,9 +14,11 @@
     <!--main-->
 <div class="container" id="main">
    <div class="row" style="margin-top:-100px;">
-        <div class="col-md-6 col-sm-6">
-            <div class="panel-heading">
-                <h4><a href="#addblogModal" role="button" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span></a>&nbsp;&nbsp;Add New Blogs </h4>
+        <div class="col-md-6 col-sm-4"style="margin-left:100px;">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4><a href="#addblogModal" role="button" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span></a>&nbsp;&nbsp;Add New Blogs </h4>
+                </div>
             </div>
         </div>
         <div class="col-md-6 col-sm-4" style="margin-left:100px;">
@@ -26,7 +28,14 @@
                                 <div class="panel-body">
                                     <div class="panel-thumbnail">
                                         <h4>{{ blog.blog_title }}</h4>
-                                        {{blog.blog_data}}<br>
+                                        {{blog.blog_body}}<br>
+                                        {% for comment in blog.comment_set.all %}
+                                            <div>
+                                                <label>user name: </label> {{comment.user.username}} <br />
+                                                <label>commented on: </label> {{comment.comment_date}} <br />
+                                                {{comment.comment_data}}<br />
+                                            </div>
+                                        {%endfor%}
                                         <a id="comment" onclick="comment({{blog.id}})" href="#" role="button" data-toggle="modal">Comment</a>&nbsp;&nbsp;
                                         <div id="comment_body_{{blog.id}}" style="display:none;">
                                             <form class="form-group" action="" method="post">{% csrf_token %}
@@ -56,7 +65,7 @@
           <div class="col-md-12">
             <form class="form-group" action="" method="post">
                     {% csrf_token %}
-                       {{ form_class }}
+                       {{ form_blog }}
                 <br><button class="btn btn-success pull-right" type="submit">Post</button>
             </form>
           </div>
@@ -77,12 +86,5 @@
     {# Load CSS and JavaScript #}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
-
-<script>
-        function comment(id){
-            $("#comment_body_"+id).toggle()
-            $("#comment_body_"+id).find("#id_blog").val(id)
-        }
-</script>
 </body>
 </html>

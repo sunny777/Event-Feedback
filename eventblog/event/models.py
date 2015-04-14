@@ -11,6 +11,7 @@ class Event(models.Model):
     event_date = models.DateTimeField('Event Date & Time')
     event_location = models.CharField(max_length=400)
     event_description = models.CharField(max_length=700)
+    overall_rating = models.FloatField(default=0.0)
 
     def __str__(self):
         return self.event_name

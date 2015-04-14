@@ -36,8 +36,8 @@
    <div class="row" style="margin-top:-50px;">
         <div id="topevents_body">
             <div class="col-md-6 col-sm-4" style="margin-left:100px;">
-            {% if latest_event_list %}
-            {% for event in latest_event_list %}
+            {% if top_ranked_events %}
+            {% for event in top_ranked_events %}
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <a style="text-decoration:none;" href="#eventshow_{{event.id}}" role="button" data-toggle="modal">
@@ -57,17 +57,9 @@
             </div>
         </div>
         <div id="topblogs_body">
-            Sunny
-        </div>
-        <div id="myblog_body">
             <div class="col-md-6 col-sm-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4><a href="#addblogModal" role="button" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span></a>&nbsp;&nbsp;Add New Blogs </h4>
-                    </div>
-                </div>
-                {% if latest_blog_list %}
-                {% for blog in latest_blog_list %}
+                {% if top_commented_blog %}
+                {% for blog in top_commented_blog %}
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4>{{ blog.blog_title }}</h4>
@@ -81,7 +73,31 @@
                 {% else %}
                     <p>No Blogs are available.</p>
                 {% endif %}
+            </div>
+        </div>
+        <div id="myblog_body">
+            <div class="col-md-6 col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4><a href="#addblogModal" role="button" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span></a>&nbsp;&nbsp;Add New Blogs </h4>
+                    </div>
                 </div>
+                {% if my_blogs %}
+                {% for blog in my_blogs %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>{{ blog.blog_title }}</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="clearfix"></div>
+                        <h5>{{blog.blog_body}}</h5>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                    <p>No Blogs are available.</p>
+                {% endif %}
+            </div>
         </div>
    </div>
 </div>
@@ -109,24 +125,23 @@
 </div>
 
 
-  {% if latest_event_list %}
-      {% for event in latest_event_list %}
+  {% if top_ranked_events %}
+      {% for event in top_ranked_events %}
         <!-- event show modal-->
         <div id="eventshow_{{event.id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
           <div class="modal-dialog">
               <div class="modal-content">
-                  <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                  </div>
-                  <div class="modal-body" style="padding:0px;">
-                      <div class="col-md-8 col-sm-6">
-                          <div class="panel panel-default">
 
+                  <div class="modal-body" style="padding:0px;">
+                      <div class="col-md-12 col-sm-4">
+                          <div class="panel panel-default">
                               <div class="panel-body">
-                                  <img src="../media/{{event.event_thumbnail}}"  class="img-responsive">
-                                  {{ event.event_name }}<br>
-                                  {{event.event_date}}<br>
-                                  {{event.event_location}}<br>
+                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                  <br><br>
+                                  <img src="../media/{{event.event_thumbnail}}"  class="img-responsive"><hr>
+                                  {{ event.event_name }}<hr>
+                                  {{event.event_date}}<hr>
+                                  {{event.event_location}}<hr>
                                   {{event.event_description}}
                               </div>
                           </div>
@@ -137,8 +152,6 @@
         </div>
 
       {% endfor %}
-  {% else %}
-      <p>No Events are available.</p>
   {% endif %}
 	<!-- script references -->
 

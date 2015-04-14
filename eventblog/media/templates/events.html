@@ -52,24 +52,6 @@
                         <p>No Events are available.</p>
                     {% endif %}
                   </div>
-                <div class="col-md-4 col-sm-6">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <div class="panel-thumbnail">
-                                <ul>
-                                    <li id="view"onclick="view()">VIEW</li>
-                                    <li id="show"onclick="show()">VIEW</li>
-                                </ul>
-                                 <div id="view_body">
-                                     Sunny
-                                 </div>
-                                 <div id="show_body">
-                                     Avinash
-                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <!-- script references -->
@@ -86,7 +68,7 @@
     <script>
             function feedback(id){
                 $("#suggestion_body_"+id).hide()
-                $("#rating_body_"+id).hide()
+
                 $("#feedback_body_"+id).toggle()
                 $("#feedback_body_"+id).find("#id_event").val(id)
             }

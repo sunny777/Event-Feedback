@@ -1,5 +1,7 @@
-from blog.forms import *
+from blog.forms import BlogForm
+from blog.forms import CommentForm
 from models import Blog
+from models import Comment
 from django.shortcuts import render_to_response
 from django.views.generic.edit import FormView
 from django.template import RequestContext, loader
@@ -14,6 +16,17 @@ from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='/account/login')
 def blog(request):
+    latest_blog_list = Blog.objects.order_by('-created_on')[:5]
+    # latest_comment_list = Comment.objects.order_by('-comment_date')[:5]
+    template = loader.get_template('blogs.html')
+    context = RequestContext(request, {
+        'latest_blog_list': latest_blog_list,
+        # 'latest_comment_list':latest_comment_list,
+        'template_name': 'blogs.html',
+        'form_blog': BlogForm,
+        'form_comment': CommentForm,
+        'success_url': '/thanks/',
+    })
     if request.method == 'POST':
         if 'BlogForm' in request.POST:
             form = BlogForm(request.POST)
@@ -26,13 +39,5 @@ def blog(request):
 
             blog.user = User.objects.get(username=request.user) # Set the user object here
             blog.save() # Now you can send it to DB
-    latest_blog_list = Blog.objects.order_by('-created_on')[:5]
-    template = loader.get_template('blogs.html')
-    context = RequestContext(request, {
-        'latest_blog_list': latest_blog_list,
-        'template_name': 'blogs.html',
-        'form_blog': BlogForm,
-        'form_comment': CommentForm,
-        'success_url': '/thanks/',
-    })
+
     return HttpResponse(template.render(context))

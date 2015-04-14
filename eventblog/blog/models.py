@@ -10,6 +10,7 @@ class Blog(models.Model):
     blog_title = models.CharField(max_length=200)
     blog_body = models.CharField("Body of Blog", max_length=2500)
     created_on = models.DateTimeField(auto_now_add=True)
+    overall_comment = models.IntegerField(default=0)
 
     def __str__(self):              # __unicode__ on Python 2
         return self.blog_title

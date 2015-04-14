@@ -40,19 +40,28 @@ function myblog(){
 	$("#myblog_body").show();
 }
 
-function view(){
-	$("#view_body").show();
-	$("#show_body").hide();
+function feedback(id){
+    $("#suggestion_body_"+id).hide()
+    $("#rating_body_"+id).hide()
+    $("#feedback_body_"+id).toggle()
+    $("#feedback_body_"+id).find("#id_event").val(id)
 }
 
-function show(){
-	$("#view_body").hide();
-	$("#show_body").show();
+function suggestion(id){
+    $("#feedback_body_"+id).hide()
+    $("#rating_body_"+id).hide()
+    $("#suggestion_body_"+id).toggle()
+    $("#suggestion_body_"+id).find("#id_event").val(id)
 }
 
+function rating(id){
+    $("#feedback_body_"+id).hide()
+    $("#suggestion_body_"+id).hide()
+    $("#rating_body_"+id).toggle()
+    $("#rating_body_"+id).find("#id_event").val(id)
+}
 
-
-function suggestion(){
-	$("#feedback_body").hide();
-	$("#suggestion_body").show();
+function comment(id){
+    $("#comment_body_"+id).toggle()
+    $("#comment_body_"+id).find("#id_blog").val(id)
 }

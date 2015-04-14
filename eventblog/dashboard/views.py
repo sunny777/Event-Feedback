@@ -8,17 +8,30 @@ from blog.forms import BlogForm
 from django.views.generic.edit import FormView
 from event.models import Event
 from blog.models import Blog
+from blog.models import Comment
+from django.db.models import *
 # Create your views here.
 
 
 @login_required(login_url='/account/login')
 def dashboard(request):
-        latest_event_list = Event.objects.order_by('-event_date')[:5]
-        latest_blog_list = Blog.objects.order_by('-created_on')[:5]
+        top_ranked_events = Event.objects.order_by('-overall_rating')[:5]
+        blog = Blog.objects.all()
+        top_commented_blog = []
+        top_comment_count = 0
+        for b in blog:
+            comments = Comment.objects.filter(blog=b)
+            if len(comments) >= top_comment_count:
+                if len(top_commented_blog) > 0 and len(top_commented_blog) > 5:
+                    top_commented_blog.pop(0)
+                top_commented_blog.append(b)
+                top_comment_count = len(comments)
+        my_blogs = Blog.objects.filter(user=User.objects.get(username=request.user))
         template = loader.get_template('dashboard.html')
         context = RequestContext(request, {
-            'latest_event_list': latest_event_list,
-            'latest_blog_list': latest_blog_list,
+            'top_ranked_events': top_ranked_events,
+            'top_commented_blog': top_commented_blog,
+            'my_blogs': my_blogs,
             'form_class': BlogForm,
             'template_name': 'dashboard.html',
             'success_url': '/thanks/',
