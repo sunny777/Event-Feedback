@@ -1,11 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/offcanvas.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        div.wrapper{
+            float:left; /* important */
+            position:relative; /* important(so we can absolutely position the description div */
+        }
+        div.description{
+            position:absolute; /* absolute position (so we can position it where we want)*/
+            bottom:0px; /* position will be on bottom */
+            left:0px;
+            width:100%;
+            /* styling bellow */
+            background-color:#F8F8F8;
+            font-family: 'tahoma';
+            font-size:15px;
+            color:black;
+            hover.color:black;
+            opacity:0.7; /* transparency */
+            filter:alpha(opacity=60); /* IE transparency */
+        }
+
+        div.description:hover,div.description:active{
+        background-color:#CCCCCC ;
+        }
+        p.description_content{
+            padding:10px;
+            margin:0px;
+        }
+
+    </style>
 </head>
 <body style="background-color:#e9eaed;">
 {% include "main_nav.html" %}
@@ -32,22 +61,25 @@
      </div>
 </div>
     <!--main-->
-<div class="container" id="main">
-   <div class="row" style="margin-top:-50px;">
+<div class="container" id="main" style="">
+   <div class="row" style="margin-top:-50px;width:80%;margin-left:auto;margin-right:auto;">
         <div id="topevents_body">
-            <div class="col-md-6 col-sm-4" style="margin-left:100px;">
+            <div class="col-md-6 col-sm-6">
             {% if top_ranked_events %}
             {% for event in top_ranked_events %}
                 <div class="panel panel-default">
-                    <div class="panel-body">
-                        <a style="text-decoration:none;" href="#eventshow_{{event.id}}" role="button" data-toggle="modal">
-                        <div class="panel-thumbnail">
+                    <div class="panel-body"><div class="wrapper">
                             <img src="../media/{{event.event_thumbnail}}"  class="img-responsive">
-                            {{ event.event_name }}<br>
-                            {{event.event_date}}<br>
-                            {{event.event_location}}
+                            <a style="text-decoration:none;" href="#eventshow_{{event.id}}" role="button" data-toggle="modal">
+                            <div class="description">
+                                <p class='description_content'>
+                                    <b>{{ event.event_name }}</b><br>
+                                    {{event.event_date}}<br>
+                                    Location-{{event.event_location}}
+                                </p>
+                            </div>
+                            </a>
                         </div>
-                        </a>
                     </div>
                 </div>
             {% endfor %}
@@ -138,10 +170,13 @@
                               <div class="panel-body">
                                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                   <br><br>
-                                  <img src="../media/{{event.event_thumbnail}}"  class="img-responsive"><hr>
-                                  {{ event.event_name }}<hr>
-                                  {{event.event_date}}<hr>
-                                  {{event.event_location}}<hr>
+                                  <img src="../media/{{event.event_thumbnail}}"  class="img-responsive">
+                                  <h4><b>Event Details</b></h4>
+                                  <p>Event&nbsp;:&nbsp;{{ event.event_name }}</p>
+                                  <p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>&nbsp;Location&nbsp;:&nbsp;{{event.event_location}}</p>
+                                  <p><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>&nbsp;Date&nbsp;:&nbsp;{{event.event_date}}</p>
+                                  <hr>
+                                  <p> Description&nbsp;:</p>
                                   {{event.event_description}}
                               </div>
                           </div>

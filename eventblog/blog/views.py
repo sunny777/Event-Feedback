@@ -1,11 +1,12 @@
 from blog.forms import BlogForm
 from blog.forms import CommentForm
-from models import Blog
+from models import *
 from models import Comment
 from django.shortcuts import render_to_response
 from django.views.generic.edit import FormView
 from django.template import RequestContext, loader
 from event.models import Event
+from django.db.models import *
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -33,11 +34,23 @@ def blog(request):
         elif 'comment_data' in request.POST:
                 form = CommentForm(request.POST)
         if form.is_valid():
-            blog = form.save(commit=False)
+            blog_form = form.save(commit=False)
+            if 'comment_data' in request.POST:
+                blog = Blog.objects.get(id=request.POST['blog'])
+                comment_count = blog.comment_set.aggregate(Count('comment_data')).values()
+                if comment_count[0] != None:
+                    comment_count = blog.comment_set.aggregate(Count('comment_data')).values()[0]
+                else:
+                    comment_count = int(request.POST['comment_data'])
+                blog.overall_comment = comment_count
+                blog.save()
+
             # commit=False tells Django that "Don't send this to database yet.
             # I have more things I want to do with it."
 
-            blog.user = User.objects.get(username=request.user) # Set the user object here
-            blog.save() # Now you can send it to DB
+            blog_form.user = User.objects.get(username=request.user)
+            # Set the user object here
+            blog_form.save()
+            # Now you can send it to DB
 
     return HttpResponse(template.render(context))

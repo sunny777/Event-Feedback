@@ -132,15 +132,3 @@ h3,h4,h5 {
     display:none;
 }
 
-.panel-thumbnail
-{
-    position: relative;
-}
-
-.caption {
-    position: absolute;
-    top: 45%;
-    left: 0;
-    width: 100%;
-    opacity: 0.5;
-}

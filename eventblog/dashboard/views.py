@@ -6,7 +6,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from blog.forms import BlogForm
 from django.views.generic.edit import FormView
-from event.models import Event
 from blog.models import Blog
 from blog.models import Comment
 from django.db.models import *
@@ -16,16 +15,7 @@ from django.db.models import *
 @login_required(login_url='/account/login')
 def dashboard(request):
         top_ranked_events = Event.objects.order_by('-overall_rating')[:5]
-        blog = Blog.objects.all()
-        top_commented_blog = []
-        top_comment_count = 0
-        for b in blog:
-            comments = Comment.objects.filter(blog=b)
-            if len(comments) >= top_comment_count:
-                if len(top_commented_blog) > 0 and len(top_commented_blog) > 5:
-                    top_commented_blog.pop(0)
-                top_commented_blog.append(b)
-                top_comment_count = len(comments)
+        top_commented_blog = Blog.objects.order_by('-overall_comment')[:5]
         my_blogs = Blog.objects.filter(user=User.objects.get(username=request.user))
         template = loader.get_template('dashboard.html')
         context = RequestContext(request, {
