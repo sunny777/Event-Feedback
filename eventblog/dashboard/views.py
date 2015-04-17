@@ -37,6 +37,3 @@ def dashboard(request):
                 blog.save() # Now you can send it to DB
 
         return HttpResponse(template.render(context))
-
-
-

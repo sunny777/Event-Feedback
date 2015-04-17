@@ -30,10 +30,11 @@
                                         <h4>{{ blog.blog_title }}</h4>
                                         {{blog.blog_body}}<br>
                                         {% for comment in blog.comment_set.all %}
-                                            <div>
-                                                <label>user name: </label> {{comment.user.username}} <br />
-                                                <label>commented on: </label> {{comment.comment_date}} <br />
+                                            <div class="panel-body">
+                                                <img src="../media/{{comment.user.userprofile.user_picture}}" width="30px" height="30px">
                                                 {{comment.comment_data}}<br />
+                                                <i class="glyphicon glyphicon-time"></i>&nbsp;{{comment.comment_time}} <br />
+
                                             </div>
                                         {%endfor%}
                                         <a id="comment" onclick="comment({{blog.id}})" href="#" role="button" data-toggle="modal">Comment</a>&nbsp;&nbsp;

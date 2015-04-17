@@ -8,7 +8,8 @@ from django.contrib.auth.models import User
 class Event(models.Model):
     event_name = models.CharField(max_length=200)
     event_thumbnail = models.ImageField(upload_to="images/", null=True, blank=True)
-    event_date = models.DateTimeField('Event Date & Time')
+    event_date = models.DateField('Event Date')
+    event_time = models.TimeField('Event Time')
     event_location = models.CharField(max_length=400)
     event_description = models.CharField(max_length=700)
     overall_rating = models.FloatField(default=0.0)
@@ -20,7 +21,8 @@ class Event(models.Model):
 class Suggestion(models.Model):
     event = models.ForeignKey(Event)
     user = models.ForeignKey(User)
-    suggestion_date = models.DateTimeField(auto_now_add=True)
+    suggestion_date = models.DateField(auto_now_add=True)
+    suggestion_time = models.TimeField(auto_now_add=True)
     suggestion_data = models.CharField(max_length=700)
 
     def __str__(self):
@@ -30,7 +32,8 @@ class Suggestion(models.Model):
 class Feedback(models.Model):
     event = models.ForeignKey(Event)
     user = models.ForeignKey(User, blank=True, null=True)
-    feedback_date = models.DateTimeField(auto_now_add=True)
+    feedback_date = models.DateField(auto_now_add=True)
+    feedback_time = models.TimeField(auto_now_add=True)
     feedback_data = models.CharField(max_length=700)
 
     def __str__(self):
@@ -40,7 +43,8 @@ class Feedback(models.Model):
 class Rating(models.Model):
     event = models.ForeignKey(Event)
     user = models.ForeignKey(User)
-    rating_date = models.DateTimeField(auto_now_add=True)
+    rating_date = models.DateField(auto_now_add=True)
+    rating_time = models.TimeField(auto_now_add=True)
     rating_star = models.IntegerField(null=True)
 
     def __str__(self):
@@ -50,3 +54,15 @@ class Rating(models.Model):
 class Image(models.Model):
     event = models.ForeignKey(Event)
     photo = models.ImageField(upload_to="images/event_image/", null=True, blank=True)
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+    user_picture = models.ImageField(upload_to="images/", null=True, blank=True)
+    user_gender = models.CharField(max_length=100, null=True, blank=True)
+
+    def __unicode__(self):
+        return self.user.username
+
+
+

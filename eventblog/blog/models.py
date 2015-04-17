@@ -9,7 +9,8 @@ class Blog(models.Model):
     user = models.ForeignKey(User)
     blog_title = models.CharField(max_length=200)
     blog_body = models.CharField("Body of Blog", max_length=2500)
-    created_on = models.DateTimeField(auto_now_add=True)
+    created_date = models.DateField(auto_now_add=True)
+    created_time = models.TimeField(auto_now_add=True)
     overall_comment = models.IntegerField(default=0)
 
     def __str__(self):              # __unicode__ on Python 2
@@ -19,7 +20,8 @@ class Blog(models.Model):
 class Comment(models.Model):
     blog = models.ForeignKey(Blog)
     user = models.ForeignKey(User, blank=True, null=True)
-    comment_date = models.DateTimeField(auto_now_add=True)
+    comment_date = models.DateField(auto_now_add=True)
+    comment_time = models.TimeField(auto_now_add=True)
     comment_data = models.CharField(max_length=700)
 
     def __str__(self):

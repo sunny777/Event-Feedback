@@ -17,7 +17,7 @@ from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='/account/login')
 def blog(request):
-    latest_blog_list = Blog.objects.order_by('-created_on')[:5]
+    latest_blog_list = Blog.objects.order_by('-created_time')[:5]
     # latest_comment_list = Comment.objects.order_by('-comment_date')[:5]
     template = loader.get_template('blogs.html')
     context = RequestContext(request, {
@@ -29,7 +29,7 @@ def blog(request):
         'success_url': '/thanks/',
     })
     if request.method == 'POST':
-        if 'BlogForm' in request.POST:
+        if 'blog_body' in request.POST:
             form = BlogForm(request.POST)
         elif 'comment_data' in request.POST:
                 form = CommentForm(request.POST)
