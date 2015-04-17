@@ -99,6 +99,22 @@
                     <div class="panel-body">
                         <div class="clearfix"></div>
                         <h5>{{blog.blog_body}}</h5>
+                        {% for comment in blog.comment_set.all %}
+                            <div class="panel-body">
+                                <img src="../media/{{comment.user.userprofile.user_picture}}" width="30px" height="30px">
+                                {{comment.comment_data}}<br />
+                                <i class="glyphicon glyphicon-time"></i>&nbsp;{{comment.comment_time}} <br />
+                            </div>
+                        {%endfor%}
+                        <div>
+                            <a onclick="comment({{blog.id}})" href="#" role="button" data-toggle="modal">Comment</a>&nbsp;&nbsp;
+                            <div id="comment_body_{{blog.id}}" style="display:none;">
+                                <form class="form-group" action="" method="post">{% csrf_token %}
+                                    {{ form_comment }}
+                                    <br><button class="btn btn-success pull-right" type="submit">Post</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
@@ -114,7 +130,7 @@
                         <h4><a href="#addblogModal" role="button" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span></a>&nbsp;&nbsp;Add New Blogs </h4>
                     </div>
                 </div>
-                {% if my_blogs %}
+            {% if my_blogs %}
                 {% for blog in my_blogs %}
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -123,12 +139,28 @@
                     <div class="panel-body">
                         <div class="clearfix"></div>
                         <h5>{{blog.blog_body}}</h5>
+                        {% for comment in blog.comment_set.all %}
+                            <div class="panel-body">
+                                <img src="../media/{{comment.user.userprofile.user_picture}}" width="30px" height="30px">
+                                {{comment.comment_data}}<br />
+                                <i class="glyphicon glyphicon-time"></i>&nbsp;{{comment.comment_time}} <br />
+                            </div>
+                        {%endfor%}
+                        <div>
+                            <a id="comment1" onclick="comments({{blog.id}})" href="#" role="button" data-toggle="modal">Comment</a>&nbsp;&nbsp;
+                            <div id="comment_body{{blog.id}}" style="display:none;">
+                                <form class="form-group" action="" method="post">{% csrf_token %}
+                                    {{ form_comment }}
+                                    <br><button class="btn btn-success pull-right" type="submit">Post</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
-                {% else %}
-                    <p>No Blogs are available.</p>
-                {% endif %}
+            {% else %}
+                <p>No Blogs are available.</p>
+            {% endif %}
             </div>
         </div>
    </div>
@@ -178,6 +210,28 @@
                                   <hr>
                                   <p> Description&nbsp;:</p>
                                   {{event.event_description}}
+                                  <hr>
+                                  <a id="feedback" onclick="feedback({{event.id}})" href="#" role="button" data-toggle="modal">Feedback</a>&nbsp;&nbsp;
+                                  <a id="suggestion" onclick="suggestion({{event.id}})" href="#" role="button" data-toggle="modal">Suggestion</a>&nbsp;&nbsp;
+                                  <a id="" onclick="rating({{event.id}})" href="#" role="button" data-toggle="modal">Rate this event</a>
+                                  <div id="feedback_body_{{event.id}}" style="display:none;">
+                                        <form class="form-group" action="" method="post">{% csrf_token %}
+                                            {{ form_feedback }}
+                                            <br><button class="btn btn-success pull-right" type="submit">Post</button>
+                                        </form>
+                                  </div>
+                                  <div id="suggestion_body_{{event.id}}" style="display:none;">
+                                        <form class="form-group" action="" method="post">{% csrf_token %}
+                                            {{ form_suggestion }}
+                                            <br><button class="btn btn-success pull-right" type="submit">Post</button>
+                                        </form>
+                                  </div>
+                                  <div id="rating_body_{{event.id}}" style="display:none;">
+                                        <form class="form-group" action="" method="post">{% csrf_token %}
+                                            {{ form_rating }}
+                                            <br><button class="btn btn-success pull-right" type="submit">Post</button>
+                                        </form>
+                                  </div>
                               </div>
                           </div>
                       </div>
@@ -198,5 +252,11 @@
     {# Load CSS and JavaScript #}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
+<script>
+    function comments(id){
+    $("#comment_body"+id).toggle()
+    $("#comment_body"+id).find("#id_blog").val(id)
+    }
+</script>
 </body>
 </html>

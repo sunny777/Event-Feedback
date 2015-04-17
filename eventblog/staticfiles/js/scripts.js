@@ -65,3 +65,8 @@ function comment(id){
     $("#comment_body_"+id).toggle()
     $("#comment_body_"+id).find("#id_blog").val(id)
 }
+
+function comments(id){
+    $("#comment_body"+id).toggle()
+    $("#comment_body"+id).find("#id_blog").val(id)
+}

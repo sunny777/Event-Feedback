@@ -22,36 +22,39 @@
             </div>
         </div>
         <div class="col-md-6 col-sm-4" style="margin-left:100px;">
-                    {% if latest_blog_list %}
-                        {% for blog in latest_blog_list %}
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <div class="panel-thumbnail">
-                                        <h4>{{ blog.blog_title }}</h4>
-                                        {{blog.blog_body}}<br>
-                                        {% for comment in blog.comment_set.all %}
-                                            <div class="panel-body">
-                                                <img src="../media/{{comment.user.userprofile.user_picture}}" width="30px" height="30px">
-                                                {{comment.comment_data}}<br />
-                                                <i class="glyphicon glyphicon-time"></i>&nbsp;{{comment.comment_time}} <br />
-
-                                            </div>
-                                        {%endfor%}
-                                        <a id="comment" onclick="comment({{blog.id}})" href="#" role="button" data-toggle="modal">Comment</a>&nbsp;&nbsp;
-                                        <div id="comment_body_{{blog.id}}" style="display:none;">
-                                            <form class="form-group" action="" method="post">{% csrf_token %}
-                                                {{ form_comment }}
-                                                <br><button class="btn btn-success pull-right" type="submit">Post</button>
-                                            </form>
-                                        </div>
+            {% if latest_blog_list %}
+                {% for blog in latest_blog_list %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                                <h4>{{ blog.blog_title }}</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="panel-thumbnail">
+                                {{blog.blog_body}}<hr>
+                                {% for comment in blog.comment_set.all %}
+                                    <div class="panel-body">
+                                        <img src="../media/{{comment.user.userprofile.user_picture}}" width="30px" height="30px">
+                                        {{comment.comment_data}}<br />
+                                        <i class="glyphicon glyphicon-time"></i>&nbsp;{{comment.comment_time}} <br />
+                                    </div>
+                                {%endfor%}
+                                <div>
+                                    <a id="comment" onclick="comment({{blog.id}})" href="#" role="button" data-toggle="modal">Comment</a>&nbsp;&nbsp;
+                                    <div id="comment_body_{{blog.id}}" style="display:none;">
+                                        <form class="form-group" action="" method="post">{% csrf_token %}
+                                            {{ form_comment }}
+                                            <br><button class="btn btn-success pull-right" type="submit">Post</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-                        {% endfor %}
-                    {% else %}
-                        <p>No Blogs are available.</p>
-                    {% endif %}
-                  </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No Blogs are available.</p>
+            {% endif %}
+        </div>
    </div>
 </div>
 <!--add blog modal-->

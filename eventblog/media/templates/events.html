@@ -25,7 +25,7 @@
                                         {{event.event_location}}<br />
                                         <a id="feedback" onclick="feedback({{event.id}})" href="#" role="button" data-toggle="modal">Feedback</a>&nbsp;&nbsp;
                                         <a id="suggestion" onclick="suggestion({{event.id}})" href="#" role="button" data-toggle="modal">Suggestion</a>
-                                        <a id="" onclick="rating({{event.id}})" href="#" role="button" data-toggle="modal">Rate this event</a>
+                                        <a id="" onclick="rating({{event.id}})" href="#" role="button" data-toggle="modal">Rate this event</a>&nbsp;&nbsp;
                                         <div id="feedback_body_{{event.id}}" style="display:none;">
                                             <form class="form-group" action="" method="post">{% csrf_token %}
                                                 {{ form_feedback }}
