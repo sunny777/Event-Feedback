@@ -70,3 +70,13 @@ function comments(id){
     $("#comment_body"+id).toggle()
     $("#comment_body"+id).find("#id_blog").val(id)
 }
+
+function adminlogin(){
+    $("#employeelogin_body").hide();
+	$("#adminlogin_body").toggle();
+}
+
+function employeelogin(){
+	$("#adminlogin_body").hide();
+	$("#employeelogin_body").show();
+}

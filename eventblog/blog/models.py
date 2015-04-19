@@ -22,7 +22,7 @@ class Comment(models.Model):
     user = models.ForeignKey(User, blank=True, null=True)
     comment_date = models.DateField(auto_now_add=True)
     comment_time = models.TimeField(auto_now_add=True)
-    comment_data = models.CharField(max_length=700)
+    comment_data = models.CharField(max_length=100)
 
     def __str__(self):
         return self.comment_data

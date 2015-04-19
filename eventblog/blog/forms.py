@@ -16,8 +16,8 @@ class BlogForm(ModelForm):
             'blog_body': _('Blog Description'),
         }
         widgets = {
-            'blog_title': TextInput(attrs={'class': 'form-control'}),
-            'blog_body': Textarea(attrs={'class': 'form-control', 'rows': 5}),
+            'blog_title': TextInput(attrs={'class': 'form-control', 'max_length': 100}),
+            'blog_body': Textarea(attrs={'class': 'form-control', 'rows': 5,}),
         }
 
 
@@ -30,6 +30,6 @@ class CommentForm(ModelForm):
             'blog': "",
         }
         widgets = {
-            'comment_data': TextInput(attrs={'class': 'form-control', 'placeholder': 'Give your comments...'}),
+            'comment_data': TextInput(attrs={'class': 'form-control', 'placeholder': 'Give your comments...', 'max_length': 500}),
             'blog': TextInput(attrs={'style': 'display:none;'}),
         }

@@ -32,10 +32,15 @@
                             <div class="panel-thumbnail">
                                 {{blog.blog_body}}<hr>
                                 {% for comment in blog.comment_set.all %}
-                                    <div class="panel-body">
-                                        <img src="../media/{{comment.user.userprofile.user_picture}}" width="30px" height="30px">
-                                        {{comment.comment_data}}<br />
-                                        <i class="glyphicon glyphicon-time"></i>&nbsp;{{comment.comment_time}} <br />
+                                    <div class="panel-body col-md-12 col-sm-12" style="background-color: rgb(230, 234, 230);">
+                                        <div class="col-md-2 col-sm-2" style="display:inline;float:left;background-color: rgb(230, 234, 250);">
+                                            <img src="../media/{{comment.user.userprofile.user_picture}}" class="img-thumbnail"  style="width: 31px;height: 31px;"><br />
+                                            <span>{{comment.user.username}}</span>
+                                        </div>
+                                        <div class="col-md-10 col-sm-10 bubble" style="display:inline;float:right;">
+                                            <div style="float:left;">{{comment.comment_data}}</div><br />
+                                            <div style="float:right;"><i class="glyphicon glyphicon-time"></i>&nbsp;{{comment.comment_time}}</div>
+                                        </div>
                                     </div>
                                 {%endfor%}
                                 <div>
