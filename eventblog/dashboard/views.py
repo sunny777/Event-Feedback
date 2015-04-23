@@ -54,6 +54,15 @@ def dashboard(request):
                         comment_count = int(request.POST['comment_data'])
                     blog.overall_comment = comment_count
                     blog.save()
+                elif 'rating_star' in request.POST:
+                    event = Event.objects.get(id=request.POST['event'])
+                    stars_average = event.rating_set.aggregate(Avg('rating_star')).values()
+                    if stars_average[0] != None:
+                        stars_average = event.rating_set.aggregate(Avg('rating_star')).values()[0]
+                    else:
+                        stars_average = float(request.POST['rating_star'])
+                    event.overall_rating = stars_average
+                    event.save()
                 # commit=False tells Django that "Don't send this to database yet.
                 # I have more things I want to do with it."
 

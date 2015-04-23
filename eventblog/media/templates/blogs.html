@@ -14,14 +14,14 @@
     <!--main-->
 <div class="container" id="main">
    <div class="row" style="margin-top:-100px;">
-        <div class="col-md-6 col-sm-4"style="margin-left:100px;">
+        <div class="col-md-5 col-sm-4"style="margin-left:100px;">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4><a href="#addblogModal" role="button" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span></a>&nbsp;&nbsp;Add New Blogs </h4>
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-sm-4" style="margin-left:100px;">
+        <div class="col-md-5 col-sm-4" style="margin-left:100px;">
             {% if latest_blog_list %}
                 {% for blog in latest_blog_list %}
                     <div class="panel panel-default">
@@ -38,7 +38,7 @@
                                             <span>{{comment.user.username}}</span>
                                         </div>
                                         <div class="col-md-10 col-sm-10 bubble" style="display:inline;float:right;">
-                                            <div style="float:left;">{{comment.comment_data}}</div><br />
+                                            <div style="float:left;margin-left: 5px;">{{comment.comment_data}}</div><br />
                                             <div style="float:right;"><i class="glyphicon glyphicon-time"></i>&nbsp;{{comment.comment_time}}</div>
                                         </div>
                                     </div>
@@ -64,26 +64,24 @@
 </div>
 <!--add blog modal-->
 <div id="addblogModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
-  <div class="modal-content">
-      <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h2 class="text-center">Blog</h2>
-      </div>
-      <div class="modal-body" style="padding:0px;">
-          <div class="col-md-12">
-            <form class="form-group" action="" method="post">
-                    {% csrf_token %}
-                       {{ form_blog }}
-                <br><button class="btn btn-success pull-right" type="submit">Post</button>
-            </form>
-          </div>
-      </div>
-      <div class="modal-footer">
-
-      </div>
-  </div>
-  </div>
+   <div class="modal-dialog">
+        <div class="modal-body">
+            <div class="col-md-10 col-sm-4">
+                  <div class="panel panel-default">
+                      <div class="panel-body">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h2 class="text-center">Blog</h2>
+                            <hr>
+                            <form class="form-group" action="" method="post">
+                                {% csrf_token %}
+                                   {{ form_blog }}
+                            <br><button class="btn btn-success pull-right" type="submit">Post</button>
+                            </form>
+                      </div>
+                  </div>
+            </div>
+        </div>
+   </div>
 </div>
 	<!-- script references -->
 
@@ -95,5 +93,6 @@
     {# Load CSS and JavaScript #}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
+
 </body>
 </html>

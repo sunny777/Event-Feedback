@@ -61,6 +61,8 @@ ROOT_URLCONF = 'eventblog.urls'
 
 WSGI_APPLICATION = 'eventblog.wsgi.application'
 
+DAB_FIELD_RENDERER = 'django_admin_bootstrapped.renderers.BootstrapFieldRenderer'
+
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases

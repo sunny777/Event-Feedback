@@ -104,10 +104,10 @@
                             <div class="panel-body col-md-12 col-sm-12" style="background-color: rgb(230, 234, 230);">
                                 <div class="col-md-2 col-sm-2" style="display:inline;float:left;background-color: rgb(230, 234, 250);">
                                     <img src="../media/{{comment.user.userprofile.user_picture}}" class="img-thumbnail"  style="width: 31px;height: 31px;">
-                                    <span>{{comment.user.username}}</span>
+                                    <span style="margin-left:-3px;">{{comment.user.username}}</span>
                                 </div>
                                 <div class="col-md-10 col-sm-10 bubble" style="display:inline;float:right;">
-                                    <div style="float:left;">{{comment.comment_data}}</div><br />
+                                    <div style="float:left;margin-left:3px;">{{comment.comment_data}}</div><br />
                                     <div style="float:right;"><i class="glyphicon glyphicon-time"></i>&nbsp;{{comment.comment_time}}</div>
                                 </div>
                             </div>
@@ -149,11 +149,11 @@
                             <div class="panel-body col-md-12 col-sm-12" style="background-color: rgb(230, 234, 230);">
                                 <div class="col-md-2 col-sm-2" style="display:inline;float:left;background-color: rgb(230, 234, 250);">
                                     <img src="../media/{{comment.user.userprofile.user_picture}}" class="img-thumbnail"  style="width: 31px;height: 31px;">
-                                    <span>{{comment.user.username}}</span>
+                                    <span style="margin-left: -3px;">{{comment.user.username}}</span>
                                 </div>
 
                                 <div class="col-md-10 col-sm-10 bubble" style="display:inline;float:right;">
-                                    <div style="float:left;">{{comment.comment_data}}</div><br />
+                                    <div style="float:left;margin-left: 3px;">{{comment.comment_data}}</div><br />
                                     <div style="float:right;"><i class="glyphicon glyphicon-time"></i>&nbsp;{{comment.comment_time}}</div>
                                 </div>
                             </div>
@@ -179,25 +179,23 @@
 </div>
 <!--add blog modal-->
 <div id="addblogModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
-  <div class="modal-content">
-      <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h2 class="text-center">Blog</h2>
-      </div>
-      <div class="modal-body" style="padding:0px;">
-          <div class="col-md-12">
-            <form class="form-group" action="" method="post">{% csrf_token %}
-                       {{ form_class }}
-                <br><button class="btn btn-success pull-right" type="submit">Post</button>
-            </form>
+      <div class="modal-dialog">
+          <div class="modal-body">
+              <div class="col-md-10 col-sm-4">
+                  <div class="panel panel-default">
+                      <div class="panel-body">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h2 class="text-center">Blog</h2>
+                            <hr>
+                            <form class="form-group" action="" method="post">{% csrf_token %}
+                                {{ form_class }}
+                                <br><button class="btn btn-success pull-right" type="submit">Post</button>
+                            </form>
+                      </div>
+                  </div>
+              </div>
           </div>
       </div>
-      <div class="modal-footer">
-
-      </div>
-  </div>
-  </div>
 </div>
 
 
@@ -206,44 +204,41 @@
         <!-- event show modal-->
         <div id="eventshow_{{event.id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
           <div class="modal-dialog">
-              <div class="modal-content">
-
-                  <div class="modal-body" style="padding:0px;">
-                      <div class="col-md-12 col-sm-4">
-                          <div class="panel panel-default">
-                              <div class="panel-body">
-                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                  <br><br>
-                                  <img src="../media/{{event.event_thumbnail}}"  class="img-responsive">
-                                  <h4><b>Event Details</b></h4>
-                                  <p>Event&nbsp;:&nbsp;{{ event.event_name }}</p>
-                                  <p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>&nbsp;Location&nbsp;:&nbsp;{{event.event_location}}</p>
-                                  <p><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>&nbsp;Date&nbsp;:&nbsp;{{event.event_date}}</p>
-                                  <hr>
-                                  <p> Description&nbsp;:</p>
-                                  {{event.event_description}}
-                                  <hr>
-                                  <a id="feedback" onclick="feedback({{event.id}})" href="#" role="button" data-toggle="modal">Feedback</a>&nbsp;&nbsp;
-                                  <a id="suggestion" onclick="suggestion({{event.id}})" href="#" role="button" data-toggle="modal">Suggestion</a>&nbsp;&nbsp;
-                                  <a id="" onclick="rating({{event.id}})" href="#" role="button" data-toggle="modal">Rate this event</a>
-                                  <div id="feedback_body_{{event.id}}" style="display:none;">
-                                        <form class="form-group" action="" method="post">{% csrf_token %}
-                                            {{ form_feedback }}
-                                            <br><button class="btn btn-success pull-right" type="submit">Post</button>
-                                        </form>
-                                  </div>
-                                  <div id="suggestion_body_{{event.id}}" style="display:none;">
-                                        <form class="form-group" action="" method="post">{% csrf_token %}
-                                            {{ form_suggestion }}
-                                            <br><button class="btn btn-success pull-right" type="submit">Post</button>
-                                        </form>
-                                  </div>
-                                  <div id="rating_body_{{event.id}}" style="display:none;">
-                                        <form class="form-group" action="" method="post">{% csrf_token %}
-                                            {{ form_rating }}
-                                            <br><button class="btn btn-success pull-right" type="submit">Post</button>
-                                        </form>
-                                  </div>
+              <div class="modal-body" style="padding:0px;">
+                  <div class="col-md-10 col-sm-4">
+                      <div class="panel panel-default">
+                          <div class="panel-body">
+                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                              <br><br>
+                              <img src="../media/{{event.event_thumbnail}}"  class="img-responsive">
+                              <h4><b>Event Details</b></h4>
+                              <p>Event&nbsp;:&nbsp;{{ event.event_name }}</p>
+                              <p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>&nbsp;Location&nbsp;:&nbsp;{{event.event_location}}</p>
+                              <p><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>&nbsp;Date&nbsp;:&nbsp;{{event.event_date}}</p>
+                              <hr>
+                              <p> Description&nbsp;:</p>
+                              {{event.event_description}}
+                              <hr>
+                              <a id="feedback" onclick="feedback({{event.id}})" href="#" role="button" data-toggle="modal">Feedback</a>&nbsp;&nbsp;
+                              <a id="suggestion" onclick="suggestion({{event.id}})" href="#" role="button" data-toggle="modal">Suggestion</a>&nbsp;&nbsp;
+                              <a id="" onclick="rating({{event.id}})" href="#" role="button" data-toggle="modal">Rate this event</a>
+                              <div id="feedback_body_{{event.id}}" style="display:none;">
+                                    <form class="form-group" action="" method="post">{% csrf_token %}
+                                        {{ form_feedback }}
+                                        <br><button class="btn btn-success pull-right" type="submit">Post</button>
+                                    </form>
+                              </div>
+                              <div id="suggestion_body_{{event.id}}" style="display:none;">
+                                    <form class="form-group" action="" method="post">{% csrf_token %}
+                                        {{ form_suggestion }}
+                                        <br><button class="btn btn-success pull-right" type="submit">Post</button>
+                                    </form>
+                              </div>
+                              <div id="rating_body_{{event.id}}" style="display:none;">
+                                    <form class="form-group" action="" method="post">{% csrf_token %}
+                                        {{ form_rating }}
+                                        <br><button class="btn btn-success pull-right" type="submit">Post</button>
+                                    </form>
                               </div>
                           </div>
                       </div>

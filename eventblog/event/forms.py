@@ -21,7 +21,7 @@ class FeedbackForm(ModelForm):
             'event': "",
         }
         widgets = {
-            'feedback_data': TextInput(attrs={'class': 'form-control', 'placeholder': 'Give feedback...',}),
+            'feedback_data': TextInput(attrs={'class': 'form-control', 'placeholder': 'Give feedback...', 'required': 'True', }),
             'event': TextInput(attrs={'style': 'display:none;'}),
         }
 
@@ -35,7 +35,7 @@ class SuggestionForm(ModelForm):
             'event': "",
         }
         widgets = {
-            'suggestion_data': TextInput(attrs={'class': 'form-control', 'placeholder': 'Give suggestion...',}),
+            'suggestion_data': TextInput(attrs={'class': 'form-control', 'placeholder': 'Give suggestion...', 'required':'True', }),
             'event': TextInput(attrs={'style': 'display:none;'}),
         }
 
@@ -60,7 +60,7 @@ class RatingForm(ModelForm):
             'event': "",
         }
         widgets = {
-            'rating_star': Select(choices=RATING_CHOICES, attrs={'class': 'form-control'}),
+            'rating_star': Select(choices=RATING_CHOICES, attrs={'class': 'form-control', }),
             'event': TextInput(attrs={'style': 'display:none;'}),
         }
 
