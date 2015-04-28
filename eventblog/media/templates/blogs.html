@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title> :. Sandstrom Blogs .:</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/offcanvas.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -17,7 +17,7 @@
         <div class="col-md-5 col-sm-4"style="margin-left:100px;">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4><a href="#addblogModal" role="button" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span></a>&nbsp;&nbsp;Add New Blogs </h4>
+                    <a style="text-decoration:none;" href="#addblogModal" role="button" data-toggle="modal"><h4 style="font-size:25px;"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add New Blogs</h4></a>
                 </div>
             </div>
         </div>
@@ -26,16 +26,17 @@
                 {% for blog in latest_blog_list %}
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                                <h4>{{ blog.blog_title }}</h4>
+                            <h4>{{ blog.blog_title }}</h4>
+                            <span style="display:inline;font-weight:300">By&nbsp;{{blog.user.first_name}}&nbsp;{{blog.user.last_name}}&nbsp;<i class="glyphicon glyphicon-time"></i>&nbsp;Posted on &nbsp;{{blog.created_date}}&nbsp;at&nbsp;{{blog.created_time}}</span>
                         </div>
                         <div class="panel-body">
                             <div class="panel-thumbnail">
                                 {{blog.blog_body}}<hr>
                                 {% for comment in blog.comment_set.all %}
                                     <div class="panel-body col-md-12 col-sm-12" style="background-color: rgb(230, 234, 230);">
-                                        <div class="col-md-2 col-sm-2" style="display:inline;float:left;background-color: rgb(230, 234, 250);">
+                                        <div class="col-md-2 col-sm-2" style="display:inline;float:left;margin-left: -3px;background-color: rgb(230, 234, 250);">
                                             <img src="../media/{{comment.user.userprofile.user_picture}}" class="img-thumbnail"  style="width: 31px;height: 31px;"><br />
-                                            <span>{{comment.user.username}}</span>
+                                            <span>{{comment.user.first_name}}</span>
                                         </div>
                                         <div class="col-md-10 col-sm-10 bubble" style="display:inline;float:right;">
                                             <div style="float:left;margin-left: 5px;">{{comment.comment_data}}</div><br />

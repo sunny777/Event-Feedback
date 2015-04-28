@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/html">
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>:. SandStrom Dashboard .:</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/offcanvas.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -33,13 +33,10 @@
             padding:10px;
             margin:0px;
         }
-
-
     </style>
 </head>
 <body style="background-color:#e9eaed;">
 {% include "main_nav.html" %}
-
 
 <div class="navbar navbar-default" id="subnav"style="margin-top:-20px;">
     <div class="col-md-12">
@@ -54,7 +51,7 @@
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse2">
           <ul class="nav navbar-nav navbar-left">
-             <li  id="topevents" class="active" onclick="topevents()"><a href="#" role="button" data-toggle="modal">Top Ranked Events</a></li>
+             <li  id="topevents" class="active" onclick="topevents()"><a href="#" role="button" data-toggle="modal">Top Rated Events</a></li>
              <li id="topblogs" onclick="topblogs()"><a href="#" role="button" data-toggle="modal">Top Commented Blogs</a></li>
              <li id="myblog" onclick="myblog()"><a href="#" role="button" data-toggle="modal">My Blog</a></li>
            </ul>
@@ -62,24 +59,60 @@
      </div>
 </div>
     <!--main-->
-<div class="container" id="main" style="">
-   <div class="row" style="margin-top:-50px;width:80%;margin-left:auto;margin-right:auto;">
+<div class="container" id="main"style="width:75%;">
+   <div class="row">
         <div id="topevents_body">
-            <div class="col-md-6 col-sm-6">
+            <div class="col-md-6 col-sm-3" style="float:left;">
             {% if top_ranked_events %}
             {% for event in top_ranked_events %}
                 <div class="panel panel-default">
-                    <div class="panel-body"><div class="wrapper">
-                            <img src="../media/{{event.event_thumbnail}}"  class="img-responsive">
-                            <a style="text-decoration:none;" href="#eventshow_{{event.id}}" role="button" data-toggle="modal">
-                            <div class="description">
-                                <p class='description_content'>
-                                    <b>{{ event.event_name }}</b><br>
-                                    {{event.event_date}}<br>
-                                    Location-{{event.event_location}}
-                                </p>
+                    <div class="panel-body">
+                        <div class="img-thumbnail">
+                            <div class="wrapper">
+                                <img src="../media/{{event.event_thumbnail}}"  class="img-responsive">
+                                <a style="text-decoration:none;" href="#eventshow_{{event.id}}" role="button" data-toggle="modal">
+                                <div class="description">
+                                    <p class='description_content'>
+                                        <b>{{ event.event_name }}</b><br>
+                                        {{event.event_date}}<br>
+                                        Location-{{event.event_location}}
+                                    </p>
+                                </div>
+                                </a>
                             </div>
-                            </a>
+                        </div>
+                        {% for feedback in event.feedback_set.all %}
+                            <div class="panel-body col-md-12 col-sm-12" style="background-color: rgb(230, 234, 230);">
+                                <div class="col-md-2 col-sm-2" style="display:inline;float:left;margin-left: -6px;background-color: rgb(230, 234, 250);">
+                                    <img src="../media/{{feedback.user.userprofile.user_picture}}" class="img-thumbnail"  style="width: 31px;height: 31px;"><br />
+                                    <span style="margin-left:-3px;">{{feedback.user.first_name}}</span>
+                                </div>
+                                <div class="col-md-10 col-sm-10 bubble" style="display:inline;float:right;">
+                                    <div style="float:left;margin-left: 5px;">{{feedback.feedback_data}}</div><br />
+                                    <div style="float:right;"><i class="glyphicon glyphicon-time"></i>&nbsp;{{feedback.feedback_time}}</div>
+                                </div>
+                            </div>
+                        {%endfor%}
+                        <a onclick="feedbacks({{event.id}})" href="#" role="button" data-toggle="modal">Feedback</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a onclick="suggestions({{event.id}})" href="#" role="button" data-toggle="modal">Suggestion</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a onclick="ratings({{event.id}})" href="#" role="button" data-toggle="modal">Rate this event</a>
+                        <div id="feedback_body{{event.id}}" style="display:none;">
+                            <form class="form-group" action="" method="post">{% csrf_token %}
+                                {{ form_feedback }}
+                                <br><button class="btn btn-success pull-right" type="submit">Post</button>
+                            </form>
+                        </div>
+                        <div id="suggestion_body{{event.id}}" style="display:none;">
+                            <form class="form-group" action="" method="post">{% csrf_token %}
+                                {{ form_suggestion }}
+                                <br><button class="btn btn-success pull-right" type="submit">Post</button>
+                            </form>
+                        </div>
+                        <div id="rating_body{{event.id}}" style="display:none;">
+                            <form class="form-group" action="" method="post">{% csrf_token %}
+                                {{ form_rating }}
+                                <br><button class="btn btn-success pull-right" type="submit">Post</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -87,6 +120,29 @@
             {% else %}
                 <p>No Events are available.</p>
             {% endif %}
+            </div>
+        </div>
+        <div class="col-md-5 col-sm-4" style="float:right;">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4>Trending</h4>
+                </div>
+                {% for event in trending_event %}
+                <div class="panel-body">
+                    <li style="list-style-type: none;">
+                        <a style="text-decoration:none;" href="#eventshow_{{event.id}}" role="button" data-toggle="modal"><i class="glyphicon glyphicon-link"></i><b>{{event.event_name}}</b></a><br/>
+                        <p style="  margin-left: 15px;">{{event.event_description}}</p>
+                    </li>
+                </div>
+                {%endfor%}
+                {% for blog in trending_blog %}
+                <div class="panel-body">
+                    <li style="list-style-type: none;">
+                        <a style="text-decoration:none;" href="#blogshow_{{blog.id}}" role="button" data-toggle="modal"><i class="glyphicon glyphicon-link"></i><b>{{blog.blog_title}}</b></a><br/>
+                        <p style="margin-left:15px;">By&nbsp;{{blog.user.first_name}}&nbsp;{{blog.user.last_name}}&nbsp;<i class="glyphicon glyphicon-time"></i>&nbsp;Posted on &nbsp;{{blog.created_date}}&nbsp;at&nbsp;{{blog.created_time}}</p>
+                    </li>
+                </div>
+                {%endfor%}
             </div>
         </div>
         <div id="topblogs_body">
@@ -102,9 +158,9 @@
                         <h5>{{blog.blog_body}}</h5>
                         {% for comment in blog.comment_set.all %}
                             <div class="panel-body col-md-12 col-sm-12" style="background-color: rgb(230, 234, 230);">
-                                <div class="col-md-2 col-sm-2" style="display:inline;float:left;background-color: rgb(230, 234, 250);">
+                                <div class="col-md-2 col-sm-2" style="display:inline;float:left;margin-left:-5px;background-color: rgb(230, 234, 250);">
                                     <img src="../media/{{comment.user.userprofile.user_picture}}" class="img-thumbnail"  style="width: 31px;height: 31px;">
-                                    <span style="margin-left:-3px;">{{comment.user.username}}</span>
+                                    <span style="margin-left:-3px;">{{comment.user.first_name}}</span>
                                 </div>
                                 <div class="col-md-10 col-sm-10 bubble" style="display:inline;float:right;">
                                     <div style="float:left;margin-left:3px;">{{comment.comment_data}}</div><br />
@@ -130,10 +186,10 @@
             </div>
         </div>
         <div id="myblog_body">
-            <div class="col-md-6 col-sm-6">
+            <div class="col-md-6 col-sm-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h4><a href="#addblogModal" role="button" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span></a>&nbsp;&nbsp;Add New Blogs </h4>
+                        <a style="text-decoration:none;" href="#addblogModal" role="button" data-toggle="modal"><h4 style="font-size:25px;"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add New Blogs</h4></a>
                     </div>
                 </div>
             {% if my_blogs %}
@@ -141,15 +197,17 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4>{{ blog.blog_title }}</h4>
+                            by&nbsp;<span style="display:inline;font-weight:600"><font color="#65B5D2">{{blog.user.first_name}}&nbsp;{{blog.user.last_name}}</font></span><br/>
+                            <span style="display:inline;font-weight:normal"><i class="glyphicon glyphicon-time"></i>&nbsp;Posted on &nbsp;{{blog.created_date}}&nbsp;at&nbsp;{{blog.created_time}}</span>
                     </div>
                     <div class="panel-body">
-                        <div class="clearfix"></div>
+                        <div class="panel-thumbnail">
                         <h5>{{blog.blog_body}}</h5>
                         {% for comment in blog.comment_set.all %}
                             <div class="panel-body col-md-12 col-sm-12" style="background-color: rgb(230, 234, 230);">
-                                <div class="col-md-2 col-sm-2" style="display:inline;float:left;background-color: rgb(230, 234, 250);">
+                                <div class="col-md-2 col-sm-2" style="display:inline;float:left; margin-left:-5px;background-color: rgb(230, 234, 250);">
                                     <img src="../media/{{comment.user.userprofile.user_picture}}" class="img-thumbnail"  style="width: 31px;height: 31px;">
-                                    <span style="margin-left: -3px;">{{comment.user.username}}</span>
+                                    <span style="margin-left: -3px;">{{comment.user.first_name}}</span>
                                 </div>
 
                                 <div class="col-md-10 col-sm-10 bubble" style="display:inline;float:right;">
@@ -158,13 +216,14 @@
                                 </div>
                             </div>
                         {%endfor%}
-                        <div>
-                            <a id="comment1" onclick="comments({{blog.id}})" href="#" role="button" data-toggle="modal">Comment</a>&nbsp;&nbsp;
-                            <div id="comment_body{{blog.id}}" style="display:none;">
-                                <form class="form-group" action="" method="post">{% csrf_token %}
-                                    {{ form_comment }}
-                                    <br><button class="btn btn-success pull-right" type="submit">Post</button>
-                                </form>
+                            <div>
+                                <a id="comment1" onclick="comments({{blog.id}})" href="#" role="button" data-toggle="modal">Comment</a>&nbsp;&nbsp;
+                                <div id="comment_body{{blog.id}}" style="display:none;">
+                                    <form class="form-group" action="" method="post">{% csrf_token %}
+                                        {{ form_comment }}
+                                        <br><button class="btn btn-success pull-right" type="submit">Post</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -210,7 +269,7 @@
                           <div class="panel-body">
                               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                               <br><br>
-                              <img src="../media/{{event.event_thumbnail}}"  class="img-responsive">
+                              <div class="img-thumbnail"><img src="../media/{{event.event_thumbnail}}"  class="img-responsive"></div>
                               <h4><b>Event Details</b></h4>
                               <p>Event&nbsp;:&nbsp;{{ event.event_name }}</p>
                               <p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>&nbsp;Location&nbsp;:&nbsp;{{event.event_location}}</p>
@@ -219,6 +278,18 @@
                               <p> Description&nbsp;:</p>
                               {{event.event_description}}
                               <hr>
+                              {% for feedback in event.feedback_set.all %}
+                                    <div class="panel-body col-md-12 col-sm-12" style="background-color: rgb(230, 234, 230);">
+                                        <div class="col-md-2 col-sm-2" style="display:inline;float:left;background-color: rgb(230, 234, 250);">
+                                            <img src="../media/{{feedback.user.userprofile.user_picture}}" class="img-thumbnail"  style="width: 31px;height: 31px;"><br />
+                                            <span>{{feedback.user.first_name}}</span>
+                                        </div>
+                                        <div class="col-md-10 col-sm-10 bubble" style="display:inline;float:right;">
+                                            <div style="float:left;margin-left: 5px;">{{feedback.feedback_data}}</div><br />
+                                            <div style="float:right;"><i class="glyphicon glyphicon-time"></i>&nbsp;{{feedback.feedback_time}}</div>
+                                        </div>
+                                    </div>
+                              {%endfor%}
                               <a id="feedback" onclick="feedback({{event.id}})" href="#" role="button" data-toggle="modal">Feedback</a>&nbsp;&nbsp;
                               <a id="suggestion" onclick="suggestion({{event.id}})" href="#" role="button" data-toggle="modal">Suggestion</a>&nbsp;&nbsp;
                               <a id="" onclick="rating({{event.id}})" href="#" role="button" data-toggle="modal">Rate this event</a>
@@ -249,6 +320,47 @@
 
       {% endfor %}
   {% endif %}
+<!-- blog show modal-->
+        {% for blog in trending_blog %}
+        <div id="blogshow_{{blog.id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-body" style="padding:0px;">
+                    <div class="col-md-10 col-sm-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                {{blog.blog_title}}
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                            <div class="panel-body">
+                                <div class="panel-thumbnail">
+                                    {{blog.blog_body}}<hr/>
+                                    {% for comment in blog.comment_set.all %}
+                                        <div class="panel-body col-md-12 col-sm-12" style="background-color: rgb(230, 234, 230);">
+                                            <div class="col-md-2 col-sm-2" style="display:inline;float:left;margin-left: -3px;background-color: rgb(230, 234, 250);">
+                                                <img src="../media/{{comment.user.userprofile.user_picture}}" class="img-thumbnail"  style="width: 31px;height: 31px;"><br />
+                                                <span>{{comment.user.first_name}}</span>
+                                            </div>
+                                            <div class="col-md-10 col-sm-10 bubble" style="display:inline;float:right;">
+                                                <div style="float:left;margin-left: 5px;">{{comment.comment_data}}</div><br />
+                                                <div style="float:right;"><i class="glyphicon glyphicon-time"></i>&nbsp;{{comment.comment_time}}</div>
+                                            </div>
+                                        </div>
+                                    {%endfor%}
+                                </div>
+                                <a id="comment" onclick="commentss({{blog.id}})" href="#" role="button" data-toggle="modal">Comment</a>&nbsp;&nbsp;
+                                <div id="comment_body__{{blog.id}}" style="display:none;">
+                                    <form class="form-group" action="" method="post">{% csrf_token %}
+                                        {{ form_comment }}
+                                        <br><button class="btn btn-success pull-right" type="submit">Post</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {%endfor%}
 	<!-- script references -->
 
     <script type="text/javascript" src="{% static 'js/jquery-1.11.2.js' %}"></script>
@@ -259,11 +371,33 @@
     {# Load CSS and JavaScript #}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
-<script>
-    function comments(id){
-    $("#comment_body"+id).toggle()
-    $("#comment_body"+id).find("#id_blog").val(id)
+    <script>
+        function feedbacks(id){
+    $("#suggestion_body"+id).hide()
+    $("#rating_body"+id).hide()
+    $("#feedback_body"+id).toggle()
+    $("#feedback_body"+id).find("#id_event").val(id)
     }
-</script>
+
+    function suggestions(id){
+        $("#feedback_body"+id).hide()
+        $("#rating_body"+id).hide()
+        $("#suggestion_body"+id).toggle()
+        $("#suggestion_body"+id).find("#id_event").val(id)
+    }
+
+    function ratings(id){
+        $("#feedback_body"+id).hide()
+        $("#suggestion_body"+id).hide()
+        $("#rating_body"+id).toggle()
+        $("#rating_body"+id).find("#id_event").val(id)
+    }
+
+    function commentss(id){
+    $("#comment_body__"+id).toggle()
+    $("#comment_body__"+id).find("#id_blog").val(id)
+}
+    </script>
+
 </body>
 </html>

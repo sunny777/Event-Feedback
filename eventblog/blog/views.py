@@ -1,11 +1,10 @@
-from blog.forms import BlogForm
-from blog.forms import CommentForm
+from forms import BlogForm
+from forms import CommentForm
 from models import *
 from models import Comment
 from django.shortcuts import render_to_response
-from django.views.generic.edit import FormView
+from django.contrib import messages
 from django.template import RequestContext, loader
-from event.models import Event
 from django.db.models import *
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -47,7 +46,6 @@ def blog(request):
 
             # commit=False tells Django that "Don't send this to database yet.
             # I have more things I want to do with it."
-
             blog_form.user = User.objects.get(username=request.user)
             # Set the user object here
             blog_form.save()

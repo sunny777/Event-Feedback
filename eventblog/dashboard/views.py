@@ -18,11 +18,15 @@ def dashboard(request):
         top_ranked_events = Event.objects.order_by('-overall_rating')[:5]
         top_commented_blog = Blog.objects.order_by('-overall_comment')[:5]
         my_blogs = Blog.objects.filter(user=User.objects.get(username=request.user))
+        trending_event = Event.objects.order_by('-event_date')[:2]
+        trending_blog = Blog.objects.order_by('-created_date')[:3]
         template = loader.get_template('dashboard.html')
         context = RequestContext(request, {
             'top_ranked_events': top_ranked_events,
             'top_commented_blog': top_commented_blog,
             'my_blogs': my_blogs,
+            'trending_event': trending_event,
+            'trending_blog': trending_blog,
             'form_class': BlogForm,
             'form_feedback': FeedbackForm,
             'form_suggestion': SuggestionForm,

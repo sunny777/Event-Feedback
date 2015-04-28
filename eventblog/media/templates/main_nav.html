@@ -1,41 +1,48 @@
 <nav class="navbar navbar-fixed-top header" style="background-color:#D0E8F4;">
  	<div class="col-md-12">
         <div class="navbar-header">
-
-          <a href="/" class="navbar-brand" style="padding:0px;"><img style="height:100%;" class="img-responsive" src="../media/images/logo.jpg" alt="Sand Strom"/></a>
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse1">
-          <i class="glyphicon glyphicon-search"></i>
-          </button>
-
+            <a href="/dashboard" class="navbar-brand" style="padding:0px;"><img style="height:100%;" class="img-responsive" src="../media/images/logo.jpg" alt="Sand Strom"/></a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse1">
+            <i class="glyphicon glyphicon-search"></i>
+            </button>
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse1"style="background-color:#D0E8F4;">
-          <form class="navbar-form pull-right">
-              <div class="input-group" style="max-width:400px;margin-right:40px;">
-                <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
-                <div class="input-group-btn">
-                  <button class="btn btn-default btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-                </div>
-              </div>
-              <a href="#" class="dropdown-toggle" style="margin-left:10px; text-decoration:none;" data-toggle="dropdown" role="button" aria-expanded="false"><img src="../media/{{user.userprofile.user_picture}}"class="img-circle"style="width: 31px;height: 31px;">&nbsp;{{ user.first_name }}<span class="caret"></span></a>
-                <ul class="dropdown-menu" role="menu">
-                   <li><a href="/account/logout">Logout</a></li>
-                </ul>
-          </form>
-          <ul class="nav navbar-nav navbar-left">
-			 <li class="active"><a href="/dashboard">Dashboard</a></li>
-			 <li><a href="/events">Event</a></li>
-			 <li><a href="/blogs">Blog</a></li>
-             <!--<li>
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-bell"></i></a>
-                <ul class="dropdown-menu">
-                  <li><a href="#"><span class="badge pull-right">40</span>Link</a></li>
-                  <li><a href="#"><span class="badge pull-right">2</span>Link</a></li>
-                  <li><a href="#"><span class="badge pull-right">0</span>Link</a></li>
-                  <li><a href="#"><span class="label label-info pull-right">1</span>Link</a></li>
-                  <li><a href="#"><span class="badge pull-right">13</span>Link</a></li>
-                </ul>
-             </li>-->
-           </ul>
+              <ul class="nav navbar-nav navbar-left">
+                 <li class="active"><a href="/dashboard">Dashboard</a></li>
+                 <li><a href="/events">Event</a></li>
+                 <li><a href="/blogs">Blog</a></li>
+                 <!--<li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-bell"></i></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#"><span class="badge pull-right">40</span>Link</a></li>
+                      <li><a href="#"><span class="badge pull-right">2</span>Link</a></li>
+                      <li><a href="#"><span class="badge pull-right">0</span>Link</a></li>
+                      <li><a href="#"><span class="label label-info pull-right">1</span>Link</a></li>
+                      <li><a href="#"><span class="badge pull-right">13</span>Link</a></li>
+                    </ul>
+                 </li>-->
+              </ul>
+              <ul class="nav nav-pills pull-right">
+                  <li style="margin-right:31px;">
+                      <form class="input-append" method="GET" action="" style="margin-top:9px;">
+                          <div class="input-group" style="max-width:200px;">
+                              <input type="text" class="form-control" placeholder="Search" name="q" id="id_q">
+                              <div class="input-group-btn">
+                                  <button class="btn btn-default btn-primary" onclick="searchs()" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                              </div>
+                          </div>
+                      </form>
+                  </li>
+                  <li style="margin-right:10px;">
+                      <a href="#" class="dropdown-toggle" style="text-decoration:none;" data-toggle="dropdown" role="button" aria-expanded="false">
+                          <img src="../media/{{user.userprofile.user_picture}}"class="img-circle"style="width: 31px;height: 31px;">&nbsp;{{ user.first_name }}<span class="caret"></span>
+                      </a>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            <li><a href="/account/logout">Logout</a></li>
+                            <li role="profile" class="disabled"><a role="menuitem" tabindex="-1" href="#"><i class="glyphicon glyphicon-user"></i>&nbsp;Profile</a></li>
+                        </ul>
+                  </li>
+              </ul>
         </div>
      </div>
 </nav>

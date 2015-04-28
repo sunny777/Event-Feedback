@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'blog',
     'dashboard',
     'bootstrap3',
+    'notification',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -60,8 +61,6 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'eventblog.urls'
 
 WSGI_APPLICATION = 'eventblog.wsgi.application'
-
-DAB_FIELD_RENDERER = 'django_admin_bootstrapped.renderers.BootstrapFieldRenderer'
 
 
 # Database

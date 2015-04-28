@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 class Blog(models.Model):
     user = models.ForeignKey(User)
     blog_title = models.CharField(max_length=200)
-    blog_body = models.CharField("Body of Blog", max_length=2500)
+    blog_body = models.TextField("Body of Blog", max_length=2500)
     created_date = models.DateField(auto_now_add=True)
     created_time = models.TimeField(auto_now_add=True)
     overall_comment = models.IntegerField(default=0)

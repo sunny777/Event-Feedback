@@ -1,6 +1,9 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
+from django.db.models import signals
+from notification import models as notification
 
 # Create your models here.
 
@@ -45,10 +48,7 @@ class Rating(models.Model):
     user = models.ForeignKey(User)
     rating_date = models.DateField(auto_now_add=True)
     rating_time = models.TimeField(auto_now_add=True)
-    rating_star = models.IntegerField(null=True)
-
-    def __str__(self):
-        return self.rating_star
+    rating_star = models.FloatField(null=True)
 
 
 class Image(models.Model):

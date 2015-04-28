@@ -13,7 +13,7 @@ urlpatterns = patterns('',
     # url(r'^$', 'eventblog.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    # (r'^blog/$', BlogView.as_view(template_name='blog.html')),
+
     (r'^blogs/$', include('blog.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^events/$', include('event.urls')),

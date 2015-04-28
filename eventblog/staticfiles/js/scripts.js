@@ -61,6 +61,8 @@ function rating(id){
     $("#rating_body_"+id).find("#id_event").val(id)
 }
 
+
+
 function comment(id){
     $("#comment_body_"+id).toggle()
     $("#comment_body_"+id).find("#id_blog").val(id)
