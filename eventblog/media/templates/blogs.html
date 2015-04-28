@@ -6,6 +6,12 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/offcanvas.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    <style>
+        #blogsuccess_body{
+            display:none;
+        }
+    </style>
 </head>
 <body>
 {% include "main_nav.html" %}
@@ -76,8 +82,14 @@
                             <form class="form-group" action="" method="post">
                                 {% csrf_token %}
                                    {{ form_blog }}
-                            <br><button class="btn btn-success pull-right" type="submit">Post</button>
+                            <br><button class="btn btn-success pull-right" onclick="blogsuccess()" type="submit">Post</button>
                             </form>
+                      </div>
+                      <div id="blogsuccess_body">
+                          <div class="alert alert-success">
+                                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                                <strong>Success!</strong> Your Blog has been posted successfully.
+                          </div>
                       </div>
                   </div>
             </div>
@@ -96,4 +108,10 @@
     {% bootstrap_javascript %}
 
 </body>
+
+<script>
+    function blogsuccess(){
+        $("#blogsuccess_body").show();
+    }
+</script>
 </html>

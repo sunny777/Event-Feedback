@@ -14,9 +14,9 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
 
-    (r'^blogs/$', include('blog.urls')),
+    url(r'^blogs/', include('blog.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^events/$', include('event.urls')),
+    url(r'^events/', include('event.urls')),
     url(r'^', include('dashboard.urls')),
     url(r'^dashboard/', include('dashboard.urls')),
     # (r'^event/$', TemplateView.as_view(template_name='event.html')),
