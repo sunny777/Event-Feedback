@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title>:. SandStrom Events .:</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/offcanvas.css' %}">
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+	</head>
+	<body>
+        {% include "main_nav.html" %}
+        <div class="container" id="main" style="margin-top: -95px; width: 70%;">
+            <div class="row">
+                <div class="col-md-6 clo-sm-4">
+                    {% if found_entries %}
+                        {% for entries in found_entries %}
+                            {% if entries.event_name %}
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <a style="text-decoration:none;" href="../../events/{{entries.id}}" role="button" data-toggle="modal">
+                                            <div class="panel-thumbnail">
+                                                <div class="img-thumbnail">
+                                                    <img src="../media/{{entries.event_thumbnail}}"  class="img-responsive">
+                                                </div><br/>
+                                                <b>{{ entries.event_name }}</b><br/>
+                                                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>&nbsp;{{entries.event_date}}<br>
+                                                Location-{{entries.event_location}}<hr>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            {% elif entries.blog_title %}
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <a style="text-decoration:none;" href="../../blogs/{{entries.id}}" role="button" data-toggle="modal">
+                                            <h4>{{ entries.blog_title }}</h4>
+                                            <span style="display:inline;font-weight:300">By&nbsp;{{entries.user.first_name}}&nbsp;{{entries.user.last_name}}&nbsp;<i class="glyphicon glyphicon-time"></i>&nbsp;Posted on &nbsp;{{entries.created_date}}&nbsp;at&nbsp;{{entries.created_time}}</span>
+                                        </a>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="panel-thumbnail">
+                                            {{entries.blog_body}}<hr>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <p>No Results are available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <!-- script references -->
+
+    <script type="text/javascript" src="{% static 'js/jquery-1.11.2.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
+    {# Load the tag library #}
+    {% load bootstrap3 %}
+
+    {# Load CSS and JavaScript #}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    </body>
+</html>

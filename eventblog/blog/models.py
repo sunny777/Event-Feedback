@@ -20,8 +20,7 @@ class Blog(models.Model):
 class Comment(models.Model):
     blog = models.ForeignKey(Blog)
     user = models.ForeignKey(User, blank=True, null=True)
-    comment_date = models.DateField(auto_now_add=True)
-    comment_time = models.TimeField(auto_now_add=True)
+    comment_date = models.DateTimeField(auto_now_add=True)
     comment_data = models.TextField(max_length=250)
 
     def __str__(self):

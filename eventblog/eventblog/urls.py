@@ -15,6 +15,7 @@ urlpatterns = patterns('',
 
 
     url(r'^blogs/', include('blog.urls')),
+    url(r'^search/', include('search.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^events/', include('event.urls')),
     url(r'^', include('dashboard.urls')),

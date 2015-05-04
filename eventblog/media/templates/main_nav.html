@@ -1,16 +1,24 @@
-<nav class="navbar navbar-fixed-top header" style="background-color:#D0E8F4;">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head lang="en">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/offcanvas.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<nav class="navbar navbar-fixed-top header">
  	<div class="col-md-12">
         <div class="navbar-header">
-            <a href="/dashboard" class="navbar-brand" style="padding:0px;"><img style="height:100%;" class="img-responsive" src="../media/images/logo.jpg" alt="Sand Strom"/></a>
+            <a href="/dashboard" class="navbar-brand" style="padding:0px;"><img style="height:100%;" class="img-responsive" src="../../media/images/logo.jpg" alt="Sand Strom"/></a>
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse1">
             <i class="glyphicon glyphicon-search"></i>
             </button>
         </div>
-        <div class="collapse navbar-collapse" id="navbar-collapse1"style="background-color:#D0E8F4;">
+        <div class="collapse navbar-collapse" id="navbar-collapse1">
               <ul class="nav navbar-nav navbar-left">
-                 <li class="active"><a href="/dashboard">Dashboard</a></li>
-                 <li><a href="/events">Event</a></li>
-                 <li><a href="/blogs">Blog</a></li>
+                 <li id="dashb" class="active"><a href="/dashboard" role="button" data-toggle="modal">Dashboard</a></li>
+                 <li id="eve" class="active" onclick="eves()"><a href="/events">Event</a></li>
+                 <li id="blg" onclick="blgs()"><a href="/blogs">Blog</a></li>
                  <!--<li>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-bell"></i></a>
                     <ul class="dropdown-menu">
@@ -24,18 +32,22 @@
               </ul>
               <ul class="nav nav-pills pull-right">
                   <li style="margin-right:31px;">
-                      <form class="input-append" method="GET" action="" style="margin-top:9px;">
+                      <form class="input-append" method="GET" action="../../search" style="margin-top:9px;">
                           <div class="input-group" style="max-width:200px;">
-                              <input type="text" class="form-control" placeholder="Search" name="q" id="id_q">
+                              {% if query_string %}
+                                <input type="text" class="form-control" placeholder="{{query_string}}" name="q" id="id_q">
+                              {% else %}
+                                 <input type="text" class="form-control" placeholder="Search" name="q" id="id_q">
+                              {% endif %}
                               <div class="input-group-btn">
-                                  <button class="btn btn-default btn-primary" onclick="searchs()" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                  <button class="btn btn-default btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                               </div>
                           </div>
                       </form>
                   </li>
                   <li style="margin-right:10px;">
                       <a href="#" class="dropdown-toggle" style="text-decoration:none;" data-toggle="dropdown" role="button" aria-expanded="false">
-                          <img src="../media/{{user.userprofile.user_picture}}"class="img-circle"style="width: 31px;height: 31px;">&nbsp;{{ user.first_name }}<span class="caret"></span>
+                          <img src="../../media/{{user.userprofile.user_picture}}"class="img-circle"style="width: 31px;height: 31px;">&nbsp;{{ user.first_name }}<span class="caret"></span>
                       </a>
                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
                             <li><a href="/account/logout">Logout</a></li>
@@ -46,3 +58,24 @@
         </div>
      </div>
 </nav>
+<!-- script references -->
+
+    <script type="text/javascript" src="{% static 'js/jquery-1.11.2.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
+    {# Load the tag library #}
+    {% load bootstrap3 %}
+
+    {# Load CSS and JavaScript #}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <script>
+       function dash(){
+            $("#dashb").addClass("active")
+            $("#eve").removeClass("active")
+            $("#blg").removeClass("active")
+            $(this).addClass("active")
+       }
+    </script>
+
+</body>
+</html>

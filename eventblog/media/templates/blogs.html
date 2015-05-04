@@ -41,12 +41,13 @@
                                 {% for comment in blog.comment_set.all %}
                                     <div class="panel-body col-md-12 col-sm-12" style="background-color: rgb(230, 234, 230);">
                                         <div class="col-md-2 col-sm-2" style="display:inline;float:left;margin-left: -3px;background-color: rgb(230, 234, 250);">
-                                            <img src="../media/{{comment.user.userprofile.user_picture}}" class="img-thumbnail"  style="width: 31px;height: 31px;"><br />
+                                            <img src="../../media/{{comment.user.userprofile.user_picture}}" class="img-thumbnail"  style="width: 31px;height: 31px;"><br />
                                             <span>{{comment.user.first_name}}</span>
                                         </div>
                                         <div class="col-md-10 col-sm-10 bubble" style="display:inline;float:right;">
                                             <div style="float:left;margin-left: 5px;">{{comment.comment_data}}</div><br />
-                                            <div style="float:right;"><i class="glyphicon glyphicon-time"></i>&nbsp;{{comment.comment_time}}</div>
+                                            {% load humanize %}
+                                            <div style="float:right;"><i class="glyphicon glyphicon-time"></i>&nbsp;{{comment.comment_date|naturaltime}}</div>
                                         </div>
                                     </div>
                                 {%endfor%}

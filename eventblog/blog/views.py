@@ -15,8 +15,11 @@ from django.contrib.auth.decorators import login_required
 
 
 @login_required(login_url='/account/login')
-def blog(request):
-    latest_blog_list = Blog.objects.order_by('-created_time')[:5]
+def blog(request, id=None):
+    if id != None:
+        latest_blog_list = Blog.objects.filter(id=id)
+    else:
+        latest_blog_list = Blog.objects.order_by('-created_date')[:5]
     # latest_comment_list = Comment.objects.order_by('-comment_date')[:5]
     template = loader.get_template('blogs.html')
     context = RequestContext(request, {

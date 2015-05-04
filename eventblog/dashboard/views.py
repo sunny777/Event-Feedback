@@ -10,6 +10,7 @@ from blog.models import Blog
 from event.forms import FeedbackForm, SuggestionForm, RatingForm
 from blog.models import Comment
 from django.db.models import *
+from event.models import Image
 # Create your views here.
 
 
@@ -17,9 +18,10 @@ from django.db.models import *
 def dashboard(request):
         top_ranked_events = Event.objects.order_by('-overall_rating')[:5]
         top_commented_blog = Blog.objects.order_by('-overall_comment')[:5]
-        my_blogs = Blog.objects.filter(user=User.objects.get(username=request.user))
+        my_blogs = Blog.objects.filter(user=User.objects.get(username=request.user)).order_by('-created_date')
         trending_event = Event.objects.order_by('-event_date')[:2]
         trending_blog = Blog.objects.order_by('-created_date')[:3]
+        image_list = Image.objects.order_by('-event_id')
         template = loader.get_template('dashboard.html')
         context = RequestContext(request, {
             'top_ranked_events': top_ranked_events,
@@ -27,6 +29,7 @@ def dashboard(request):
             'my_blogs': my_blogs,
             'trending_event': trending_event,
             'trending_blog': trending_blog,
+            'image_list': image_list,
             'form_class': BlogForm,
             'form_feedback': FeedbackForm,
             'form_suggestion': SuggestionForm,

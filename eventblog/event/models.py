@@ -35,8 +35,7 @@ class Suggestion(models.Model):
 class Feedback(models.Model):
     event = models.ForeignKey(Event)
     user = models.ForeignKey(User, blank=True, null=True)
-    feedback_date = models.DateField(auto_now_add=True)
-    feedback_time = models.TimeField(auto_now_add=True)
+    feedback_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     feedback_data = models.CharField(max_length=700)
 
     def __str__(self):
@@ -50,10 +49,16 @@ class Rating(models.Model):
     rating_time = models.TimeField(auto_now_add=True)
     rating_star = models.FloatField(null=True)
 
+    def __unicode__(self):
+        return self.event.event_name
+
 
 class Image(models.Model):
     event = models.ForeignKey(Event)
     photo = models.ImageField(upload_to="images/event_image/", null=True, blank=True)
+
+    def __unicode__(self):
+        return self.event.event_name
 
 
 class UserProfile(models.Model):

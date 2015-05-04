@@ -63,63 +63,64 @@
    <div class="row">
         <div id="topevents_body">
             <div class="col-md-6 col-sm-3" style="float:left;">
-            {% if top_ranked_events %}
-            {% for event in top_ranked_events %}
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <div class="img-thumbnail">
-                            <div class="wrapper">
-                                <img src="../media/{{event.event_thumbnail}}"  class="img-responsive">
-                                <a style="text-decoration:none;" href="#eventshow_{{event.id}}" role="button" data-toggle="modal">
-                                <div class="description">
-                                    <p class='description_content'>
-                                        <b>{{ event.event_name }}</b><br>
-                                        {{event.event_date}}<br>
-                                        Location-{{event.event_location}}
-                                    </p>
+                {% if top_ranked_events %}
+                    {% for event in top_ranked_events %}
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="img-thumbnail">
+                                    <div class="wrapper">
+                                        <img src="../media/{{event.event_thumbnail}}"  class="img-responsive">
+                                        <a style="text-decoration:none;" href="#eventshow_{{event.id}}" role="button" data-toggle="modal">
+                                        <div class="description">
+                                            <p class='description_content'>
+                                                <b>{{ event.event_name }}</b><br>
+                                                {{event.event_date}}<br>
+                                                Location-{{event.event_location}}
+                                            </p>
+                                        </div>
+                                        </a>
+                                    </div>
                                 </div>
-                                </a>
+                                {% for feedback in event.feedback_set.all %}
+                                    <div class="panel-body col-md-12 col-sm-12" style="background-color: rgb(230, 234, 230);">
+                                        <div class="col-md-2 col-sm-2" style="display:inline;float:left;margin-left: -6px;background-color: rgb(230, 234, 250);">
+                                            <img src="../media/{{feedback.user.userprofile.user_picture}}" class="img-thumbnail"  style="width: 31px;height: 31px;"><br />
+                                            <span style="margin-left:-3px;">{{feedback.user.first_name}}</span>
+                                        </div>
+                                        <div class="col-md-10 col-sm-10 bubble" style="display:inline;float:right;">
+                                            <div style="float:left;margin-left: 5px;">{{feedback.feedback_data}}</div><br />
+                                            {% load humanize %}
+                                            <div style="float:right;"><i class="glyphicon glyphicon-time"></i>&nbsp;{{feedback.feedback_date|naturaltime}}</div>
+                                        </div>
+                                    </div>
+                                {%endfor%}
+                                <a class="feedback" onclick="feedbacks({{event.id}})" date="{{event.event_date|date:'Y-m-d'}}" href="#" role="button" data-toggle="modal">Feedback</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a class="suggestion" onclick="suggestions({{event.id}})" date="{{event.event_date|date:'Y-m-d'}}" href="#" role="button" data-toggle="modal">Suggestion</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a class="rating" onclick="ratings({{event.id}})" href="#" date="{{event.event_date|date:'Y-m-d'}}" role="button" data-toggle="modal">Rate this event</a>
+                                <div id="feedback_body{{event.id}}" style="display:none;">
+                                    <form class="form-group" action="" method="post">{% csrf_token %}
+                                        {{ form_feedback }}
+                                        <br><button class="btn btn-success pull-right" type="submit">Post</button>
+                                    </form>
+                                </div>
+                                <div id="suggestion_body{{event.id}}" style="display:none;">
+                                    <form class="form-group" action="" method="post">{% csrf_token %}
+                                        {{ form_suggestion }}
+                                        <br><button class="btn btn-success pull-right" type="submit">Post</button>
+                                    </form>
+                                </div>
+                                <div id="rating_body{{event.id}}" style="display:none;">
+                                    <form class="form-group" action="" method="post">{% csrf_token %}
+                                        {{ form_rating }}
+                                        <br><button class="btn btn-success pull-right" type="submit">Post</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                        {% for feedback in event.feedback_set.all %}
-                            <div class="panel-body col-md-12 col-sm-12" style="background-color: rgb(230, 234, 230);">
-                                <div class="col-md-2 col-sm-2" style="display:inline;float:left;margin-left: -6px;background-color: rgb(230, 234, 250);">
-                                    <img src="../media/{{feedback.user.userprofile.user_picture}}" class="img-thumbnail"  style="width: 31px;height: 31px;"><br />
-                                    <span style="margin-left:-3px;">{{feedback.user.first_name}}</span>
-                                </div>
-                                <div class="col-md-10 col-sm-10 bubble" style="display:inline;float:right;">
-                                    <div style="float:left;margin-left: 5px;">{{feedback.feedback_data}}</div><br />
-                                    <div style="float:right;"><i class="glyphicon glyphicon-time"></i>&nbsp;{{feedback.feedback_time}}</div>
-                                </div>
-                            </div>
-                        {%endfor%}
-                        <a onclick="feedbacks({{event.id}})" href="#" role="button" data-toggle="modal">Feedback</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a onclick="suggestions({{event.id}})" href="#" role="button" data-toggle="modal">Suggestion</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a onclick="ratings({{event.id}})" href="#" role="button" data-toggle="modal">Rate this event</a>
-                        <div id="feedback_body{{event.id}}" style="display:none;">
-                            <form class="form-group" action="" method="post">{% csrf_token %}
-                                {{ form_feedback }}
-                                <br><button class="btn btn-success pull-right" type="submit">Post</button>
-                            </form>
-                        </div>
-                        <div id="suggestion_body{{event.id}}" style="display:none;">
-                            <form class="form-group" action="" method="post">{% csrf_token %}
-                                {{ form_suggestion }}
-                                <br><button class="btn btn-success pull-right" type="submit">Post</button>
-                            </form>
-                        </div>
-                        <div id="rating_body{{event.id}}" style="display:none;">
-                            <form class="form-group" action="" method="post">{% csrf_token %}
-                                {{ form_rating }}
-                                <br><button class="btn btn-success pull-right" type="submit">Post</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-            {% else %}
-                <p>No Events are available.</p>
-            {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <p>No Events are available.</p>
+                {% endif %}
             </div>
         </div>
         <div class="col-md-5 col-sm-4" style="float:right;">
@@ -164,7 +165,8 @@
                                 </div>
                                 <div class="col-md-10 col-sm-10 bubble" style="display:inline;float:right;">
                                     <div style="float:left;margin-left:3px;">{{comment.comment_data}}</div><br />
-                                    <div style="float:right;"><i class="glyphicon glyphicon-time"></i>&nbsp;{{comment.comment_time}}</div>
+                                    {% load humanize %}
+                                    <div style="float:right;"><i class="glyphicon glyphicon-time"></i>&nbsp;{{comment.comment_date|naturaltime}}</div>
                                 </div>
                             </div>
                         {%endfor%}
@@ -212,7 +214,8 @@
 
                                 <div class="col-md-10 col-sm-10 bubble" style="display:inline;float:right;">
                                     <div style="float:left;margin-left: 3px;">{{comment.comment_data}}</div><br />
-                                    <div style="float:right;"><i class="glyphicon glyphicon-time"></i>&nbsp;{{comment.comment_time}}</div>
+                                    {% load humanize %}
+                                    <div style="float:right;"><i class="glyphicon glyphicon-time"></i>&nbsp;{{comment.comment_date|naturaltime}}</div>
                                 </div>
                             </div>
                         {%endfor%}
@@ -257,19 +260,22 @@
       </div>
 </div>
 
-
+<!-- event show modal-->
   {% if top_ranked_events %}
       {% for event in top_ranked_events %}
-        <!-- event show modal-->
         <div id="eventshow_{{event.id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
           <div class="modal-dialog">
               <div class="modal-body" style="padding:0px;">
-                  <div class="col-md-10 col-sm-4">
+                  <div class="col-lg-10 col-sm-4">
                       <div class="panel panel-default">
                           <div class="panel-body">
                               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                               <br><br>
-                              <div class="img-thumbnail"><img src="../media/{{event.event_thumbnail}}"  class="img-responsive"></div>
+                              {% for image in event.image_set.all %}
+                              <div class="img-thumbnail">
+                                  <img src="../media/{{image.photo}}"  class="img-responsive" style="width: 70px;height: 70px; cursor:pointer;" onmouseover="bigImg(this)" onmouseout="normalImg(this)">
+                              </div>
+                              {% endfor %}
                               <h4><b>Event Details</b></h4>
                               <p>Event&nbsp;:&nbsp;{{ event.event_name }}</p>
                               <p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>&nbsp;Location&nbsp;:&nbsp;{{event.event_location}}</p>
@@ -286,13 +292,14 @@
                                         </div>
                                         <div class="col-md-10 col-sm-10 bubble" style="display:inline;float:right;">
                                             <div style="float:left;margin-left: 5px;">{{feedback.feedback_data}}</div><br />
-                                            <div style="float:right;"><i class="glyphicon glyphicon-time"></i>&nbsp;{{feedback.feedback_time}}</div>
+                                            {% load humanize %}
+                                            <div style="float:right;"><i class="glyphicon glyphicon-time"></i>&nbsp;{{feedback.feedback_date|naturaltime}}</div>
                                         </div>
                                     </div>
                               {%endfor%}
-                              <a id="feedback" onclick="feedback({{event.id}})" href="#" role="button" data-toggle="modal">Feedback</a>&nbsp;&nbsp;
-                              <a id="suggestion" onclick="suggestion({{event.id}})" href="#" role="button" data-toggle="modal">Suggestion</a>&nbsp;&nbsp;
-                              <a id="" onclick="rating({{event.id}})" href="#" role="button" data-toggle="modal">Rate this event</a>
+                              <a class="feedback" onclick="feedback({{event.id}})" date="{{event.event_date|date:'Y-m-d'}}" href="#" role="button" data-toggle="modal">Feedback</a>&nbsp;&nbsp;
+                              <a class="suggestion" onclick="suggestion({{event.id}})" date="{{event.event_date|date:'Y-m-d'}}" href="#" role="button" data-toggle="modal">Suggestion</a>&nbsp;&nbsp;
+                              <a class="rating" onclick="rating({{event.id}})" href="#" date="{{event.event_date|date:'Y-m-d'}}" role="button" data-toggle="modal">Rate this event</a>
                               <div id="feedback_body_{{event.id}}" style="display:none;">
                                     <form class="form-group" action="" method="post">{% csrf_token %}
                                         {{ form_feedback }}
@@ -373,31 +380,77 @@
     {% bootstrap_javascript %}
     <script>
         function feedbacks(id){
-    $("#suggestion_body"+id).hide()
-    $("#rating_body"+id).hide()
-    $("#feedback_body"+id).toggle()
-    $("#feedback_body"+id).find("#id_event").val(id)
-    }
-
-    function suggestions(id){
-        $("#feedback_body"+id).hide()
-        $("#rating_body"+id).hide()
-        $("#suggestion_body"+id).toggle()
-        $("#suggestion_body"+id).find("#id_event").val(id)
-    }
-
-    function ratings(id){
-        $("#feedback_body"+id).hide()
         $("#suggestion_body"+id).hide()
-        $("#rating_body"+id).toggle()
-        $("#rating_body"+id).find("#id_event").val(id)
-    }
+        $("#rating_body"+id).hide()
+        $("#feedback_body"+id).toggle()
+        $("#feedback_body"+id).find("#id_event").val(id)
+        }
 
-    function commentss(id){
-    $("#comment_body__"+id).toggle()
-    $("#comment_body__"+id).find("#id_blog").val(id)
-}
+        function suggestions(id){
+            $("#feedback_body"+id).hide()
+            $("#rating_body"+id).hide()
+            $("#suggestion_body"+id).toggle()
+            $("#suggestion_body"+id).find("#id_event").val(id)
+        }
+
+        function ratings(id){
+            $("#feedback_body"+id).hide()
+            $("#suggestion_body"+id).hide()
+            $("#rating_body"+id).toggle()
+            $("#rating_body"+id).find("#id_event").val(id)
+        }
+
+        function commentss(id){
+        $("#comment_body__"+id).toggle()
+        $("#comment_body__"+id).find("#id_blog").val(id)
+        }
+
+        $(document).ready(function(){
+            $(".rating").each(function(i){
+                var date = $(this).attr('date')
+                d1 = new Date(date)
+                d2 = new Date()
+                console.log(d1, d2)
+                if(d1>d2){
+                    $(this).css('pointer-events', 'none')
+                    $(this).css('opacity','0.7')
+                }
+            });
+            $(".feedback").each(function(i){
+                var date = $(this).attr('date')
+                d1 = new Date(date)
+                d2 = new Date()
+                console.log(d1, d2)
+                if(d1>d2){
+                    $(this).css('pointer-events', 'none')
+                    $(this).css('opacity','0.7')
+                }
+            });
+            $(".suggestion").each(function(i){
+                var date = $(this).attr('date')
+                d1 = new Date(date)
+                d2 = new Date()
+                console.log(d1, d2)
+                if(d1<d2){
+                     $(this).css('pointer-events', 'none')
+                     $(this).css('opacity','0.7')
+                }
+            });
+        });
     </script>
+
+    <script>
+        function bigImg(x) {
+            x.style.height = "300px";
+            x.style.width = "430px";
+        }
+
+        function normalImg(x) {
+            x.style.height = "70px";
+            x.style.width = "70px";
+    }
+    </script>
+
 
 </body>
 </html>

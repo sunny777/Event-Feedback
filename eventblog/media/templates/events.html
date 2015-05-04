@@ -8,11 +8,6 @@
         {% load static %}
         <link rel="stylesheet" href="{% static 'css/offcanvas.css' %}">
         <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-        <style>
-            #search_body{
-                display:none;
-            }
-        </style>
 	</head>
 	<body>
         {% include "main_nav.html" %}
@@ -23,24 +18,26 @@
                         {% for event in latest_event_list %}
                             <div class="panel panel-default">
                                 <div class="panel-body">
-                                    <a style="text-decoration:none;" href="#eventshow_{{event.id}}" role="button" data-toggle="modal">
+
                                         <div class="panel-thumbnail">
                                             <div class="img-thumbnail">
-                                                <img src="../media/{{event.event_thumbnail}}"  class="img-responsive">
+                                                <a style="text-decoration:none;" href="#eventshow_{{event.id}}" role="button" data-toggle="modal">
+                                                <img src="../../media/{{event.event_thumbnail}}"  class="img-responsive">
+                                                </a>
                                             </div><br/>
                                             <b>{{ event.event_name }}</b><br/>
                                             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>&nbsp;{{event.event_date}}<br>
                                             Location-{{event.event_location}}<hr>
-
                                             {% for feedback in event.feedback_set.all %}
                                                 <div class="panel-body col-md-12 col-sm-12" style="background-color: rgb(230, 234, 230);">
                                                     <div class="col-md-2 col-sm-2" style="display:inline;float:left;margin-left:-5px;background-color: rgb(230, 234, 250);">
-                                                        <img src="../media/{{feedback.user.userprofile.user_picture}}" class="img-thumbnail"  style="width: 31px;height: 31px;"><br />
+                                                        <img src="../../media/{{feedback.user.userprofile.user_picture}}" class="img-thumbnail"  style="width: 31px;height: 31px;"><br />
                                                         <span>{{feedback.user.first_name}}</span>
                                                     </div>
                                                     <div class="col-md-10 col-sm-10 bubble" style="display:inline;float:right;">
                                                         <div style="float:left;margin-left: 5px;">{{feedback.feedback_data}}</div><br />
-                                                        <div style="float:right;"><i class="glyphicon glyphicon-time"></i>&nbsp;{{feedback.feedback_time}}</div>
+                                                        {% load humanize %}
+                                                        <div style="float:right;"><i class="glyphicon glyphicon-time"></i>&nbsp;{{ feedback.feedback_date|naturaltime }}</div>
                                                     </div>
                                                 </div>
                                             {%endfor%}
@@ -66,7 +63,6 @@
                                                 </form>
                                             </div>
                                         </div>
-                                    </a>
                                 </div>
                             </div>
                         {% endfor %}
@@ -74,30 +70,7 @@
                         <p>No Events are available.</p>
                     {% endif %}
                 </div>
-                <div id="search_body">
-                    <div class="col-md-5 col-sm-4" style="float:right;">
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                <h4>Search Results</h4>
-                            </div>
-                            <div class="panel-body">
-                                {% if found_entries %}
-                                    {% for ent in found_entries %}
-                                        <li style="list-style-type: none;">
-                                            <a href="#" style="text-decoration:none;"><i class="glyphicon glyphicon-link"></i>&nbsp;<b>{{ ent }}</b></a>
-                                        </li>
-                                    <!--<li>{{ ent }}: {{ ent.event_description}}</li>-->
-                                    {%endfor%}
-                                {% else %}
-                                    <p>No Such Record..</p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </div>
-
 
 <!-- event show modal-->
 {% if latest_event_list %}
@@ -110,7 +83,7 @@
                           <div class="panel-body">
                               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                               <br><br>
-                              <div class="img-thumbnail"><img src="../media/{{event.event_thumbnail}}"  class="img-responsive"></div>
+                              <div class="img-thumbnail"><img src="../../media/{{event.event_thumbnail}}"  class="img-responsive"></div>
                               <h4><b>Event Details</b></h4>
                               <p>Event&nbsp;:&nbsp;{{ event.event_name }}</p>
                               <p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>&nbsp;Location&nbsp;:&nbsp;{{event.event_location}}</p>
@@ -140,14 +113,14 @@
     <script>
             function feedback(id){
                 $("#suggestion_body_"+id).hide()
-
+                $("#rating_body_"+id).hide()
                 $("#feedback_body_"+id).toggle()
                 $("#feedback_body_"+id).find("#id_event").val(id)
             }
 
             function suggestion(id){
-                $("#feedback_body_"+id).hide()
                 $("#rating_body_"+id).hide()
+                $("#feedback_body_"+id).hide()
                 $("#suggestion_body_"+id).toggle()
                 $("#suggestion_body_"+id).find("#id_event").val(id)
             }
@@ -166,7 +139,8 @@
                     d2 = new Date()
                     console.log(d1, d2)
                     if(d1>d2){
-                        $(this).css('display', 'none')
+                        $(this).css('pointer-events', 'none')
+                        $(this).css('opacity','0.7')
                     }
                 });
                 $(".feedback").each(function(i){
@@ -175,7 +149,8 @@
                     d2 = new Date()
                     console.log(d1, d2)
                     if(d1>d2){
-                        $(this).css('display', 'none')
+                        $(this).css('pointer-events', 'none')
+                        $(this).css('opacity','0.7')
                     }
                 });
                 $(".suggestion").each(function(i){
@@ -184,14 +159,10 @@
                     d2 = new Date()
                     console.log(d1, d2)
                     if(d1<d2){
-                        $(this).css('display','none')
+                         $(this).css('pointer-events', 'none')
+                         $(this).css('opacity','0.7')
                     }
                 });
             });
-    </script>
-    <script>
-        function searchs(){
-            $("#search_body").show();
-        }
     </script>
 </html>

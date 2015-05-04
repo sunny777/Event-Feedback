@@ -5,5 +5,5 @@ from . import views
 
 urlpatterns = patterns('',
     url( r'^$', 'blog.views.blog', name='blog'),
-    #url( r'^$', 'blog.views.blog_save', name='blog_save'),
+    url(r'^(?P<id>[0-9]+)/$', views.blog, name='blog'),
 )
